@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disaster Audit — Commission on Audit</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="description" content="The Commission on Audit ensures every peso allocated for disaster response reaches its intended purpose.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   DISASTER AUDIT — design tokens
+   Signature: a public "ledger" — hairline rules, tabular data, a rotated
+   verification stamp — borrowed from the audit trail itself.
+   ===================================================================== */
+:root{
+  --maroon-950:#2A0C0E;
+  --maroon-900:#4A1518;
+  --maroon-700:#5C1A1F;
+  --maroon-600:#6B1E23;
+  --maroon-050:#F7EAE7;
+  --coral:#D9453D;
+  --coral-100:#F6DAD7;
+  --teal:#64D0EA;
+  --gold:#D9453D;
+  --gold-100:#F6DAD7;
+  --paper:#FBF7F0;
+  --paper-dim:#F1E9DC;
+  --ink:#241C18;
+  --ink-soft:#6B5F55;
+  --line:#DDD0BC;
+  --white:#FFFFFF;
+
+  --font-display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body:"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius-s:6px;
+  --radius-m:14px;
+  --radius-l:26px;
+  --shadow-card:0 1px 2px rgba(58,15,20,.06), 0 12px 30px -18px rgba(58,15,20,.35);
+  --shadow-lift:0 20px 45px -20px rgba(58,15,20,.45);
+  --container:1200px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; margin:0 0 .5em; color:var(--maroon-900); }
+p{ margin:0 0 1em; }
+ul{ margin:0; padding:0; list-style:none; }
+button{ font-family:inherit; cursor:pointer; }
+
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.skip-link{
+  position:absolute; left:-999px; top:0; background:var(--maroon-700); color:#fff;
+  padding:.8em 1.2em; z-index:999; border-radius:0 0 var(--radius-s) 0;
+}
+.skip-link:focus{ left:0; }
+:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+.muted{ color:var(--ink-soft); }
+.eyebrow{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.14em;
+  font-size:.72rem; color:var(--maroon-700); font-weight:600; margin:0 0 .8em;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+  padding:.85em 1.6em; border-radius:999px; font-weight:600; font-size:.92rem;
+  text-decoration:none; border:1.5px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.btn--solid{ background:var(--maroon-700); color:#fff; box-shadow:var(--shadow-card); }
+.btn--solid:hover{ background:var(--maroon-900); transform:translateY(-2px); }
+.btn--ghost{ color:var(--maroon-700); border-color:var(--line); background:transparent; }
+.btn--ghost:hover{ background:var(--maroon-050); }
+.btn--outline{ color:var(--maroon-700); border-color:var(--maroon-700); background:transparent; }
+.btn--outline:hover{ background:var(--maroon-700); color:#fff; }
+
+/* =====================================================================
+   HEADER / NAV
+   ===================================================================== */
+.site-header{ background:var(--maroon-900); color:#fff; }
+.topbar{
+  font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em;
+  text-align:center; padding:.5em 1em; background:var(--maroon-950);
+  color:var(--coral-100); border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topbar__seal{ color:var(--gold); margin-right:.4em; }
+
+.navbar{
+  max-width:var(--container); margin:0 auto; padding:1.1em 1.5em;
+  display:flex; align-items:center; gap:2em; flex-wrap:wrap;
+}
+.brand{ display:flex; align-items:center; gap:.6em; text-decoration:none; margin-right:auto; }
+.brand__mark{ height:34px; width:auto; }
+.brand__name{ font-family:var(--font-display); font-size:1.2rem; color:#fff; font-weight:600; }
+.brand__name em{ font-style:normal; color:var(--gold); }
+
+.nav-links{ display:flex; gap:1.8em; }
+.nav-links a{ text-decoration:none; color:rgba(255,255,255,.82); font-size:.94rem; font-weight:500; transition:color .15s; position:relative; }
+.nav-links a:hover{ color:#fff; }
+.nav-links a::after{
+  content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px; background:var(--gold);
+  transform:scaleX(0); transform-origin:left; transition:transform .2s ease;
+}
+.nav-links a:hover::after{ transform:scaleX(1); }
+
+.navbar__cta{ display:flex; gap:.7em; }
+.navbar__cta .btn--ghost{ color:#fff; border-color:rgba(255,255,255,.35); }
+.navbar__cta .btn--ghost:hover{ background:rgba(255,255,255,.08); }
+
+.nav-toggle{ display:none; }
+.nav-burger{ display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.nav-burger span{ width:24px; height:2px; background:#fff; border-radius:2px; }
+
+/* =====================================================================
+   HERO
+   ===================================================================== */
+.hero{ padding:3.5em 1.5em 5em; }
+.hero__grid{
+  max-width:var(--container); margin:0 auto;
+  display:grid; grid-template-columns:1.15fr .85fr; gap:3.5em; align-items:start;
+}
+.hero__title{
+  font-size:clamp(2.1rem, 3.4vw + 1rem, 3.4rem); color:#fff; line-height:1.08; margin-bottom:.5em;
+}
+.hero__title span{ color:var(--gold); font-style:italic; }
+.hero__lede{ color:rgba(255,255,255,.78); font-size:1.08rem; max-width:44ch; }
+
+.search-bar{
+  display:flex; background:#fff; border-radius:999px; padding:.35em .35em .35em 1.3em;
+  margin:1.8em 0; box-shadow:var(--shadow-lift); max-width:520px;
+}
+.search-bar input{
+  flex:1; border:none; outline:none; font-family:inherit; font-size:.95rem; background:transparent; color:var(--ink);
+}
+.search-bar button{
+  background:var(--teal); color:var(--maroon-900); border:none; width:44px; height:44px; border-radius:50%;
+  display:grid; place-items:center; font-size:1.05rem; transition:background .15s;
+}
+.search-bar button:hover{ background:#4CC0DE; }
+
+.hero__stats{ display:flex; gap:2.2em; flex-wrap:wrap; margin-top:2em; }
+.hero__stats div{ display:flex; flex-direction:column; }
+.hero__stats strong{ font-family:var(--font-mono); font-size:1.4rem; color:var(--gold); }
+.hero__stats span{ font-size:.8rem; color:rgba(255,255,255,.65); }
+
+/* ledger card */
+.ledger-card{
+  background:var(--maroon-700); border-radius:var(--radius-l); padding:1.7em;
+  box-shadow:var(--shadow-lift); border:1px solid rgba(255,255,255,.06);
+  position:relative; top:.5em;
+}
+.ledger-card__head{
+  display:flex; align-items:center; gap:.6em; font-family:var(--font-mono);
+  font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--coral); font-weight:600;
+  padding-bottom:1em; border-bottom:1px dashed rgba(255,255,255,.18);
+}
+.ledger-card__tag{
+  margin-left:auto; background:rgba(255,255,255,.1); color:var(--coral-100);
+  padding:.2em .6em; border-radius:999px; font-size:.62rem;
+}
+.pulse-dot{
+  width:8px; height:8px; border-radius:50%; background:var(--coral); position:relative;
+}
+.pulse-dot::after{
+  content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid var(--coral);
+  animation:pulse 1.8s ease-out infinite;
+}
+@keyframes pulse{ from{ opacity:.7; transform:scale(.6);} to{ opacity:0; transform:scale(1.8);} }
+
+.ledger-feed{ padding:1em 0; display:flex; flex-direction:column; gap:1em; }
+.ledger-feed li{ border-left:3px solid var(--coral); padding-left:1em; }
+.ledger-feed__agency{
+  font-family:var(--font-mono); font-size:.7rem; font-weight:700; color:#fff;
+  background:rgba(0,0,0,.2); padding:.15em .5em; border-radius:4px;
+}
+.ledger-feed p{ margin:.4em 0 .2em; font-size:.92rem; color:rgba(255,255,255,.9); }
+.ledger-feed p strong{ color:var(--coral-100); }
+.ledger-feed time{ font-family:var(--font-mono); font-size:.72rem; color:rgba(255,255,255,.55); }
+
+.ledger-card__foot{ display:flex; align-items:center; justify-content:space-between; padding-top:1em; border-top:1px dashed rgba(255,255,255,.18); font-size:.8rem; color:rgba(255,255,255,.6); }
+.ledger-card__foot .muted{ color:rgba(255,255,255,.6); }
+.partner-logos{ display:flex; gap:.5em; }
+.partner-logos img{ width:30px; height:30px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,.25); }
+.partner-logos--large img{ width:36px; height:36px; }
+
+/* =====================================================================
+   SECTIONS — shared
+   ===================================================================== */
+.section{ padding:5.5em 1.5em; max-width:var(--container); margin:0 auto; }
+.section--tinted{ max-width:none; background:var(--paper-dim); }
+.section--tinted > *{ max-width:var(--container); margin-left:auto; margin-right:auto; }
+
+.section__head{ display:flex; justify-content:space-between; align-items:flex-end; gap:2em; margin-bottom:2.6em; }
+.section__head h2{ font-size:clamp(1.6rem, 1.6vw + 1rem, 2.3rem); max-width:16ch; }
+.section__head--center{ flex-direction:column; align-items:center; text-align:center; }
+.section__lede{ max-width:58ch; color:var(--ink-soft); }
+.carousel-btn{ background:none; border:none; font-size:1.6rem; color:var(--ink-soft); }
+.section__more{ display:flex; justify-content:center; margin-top:2.6em; }
+
+/* grids — CSS Grid, responsive via auto-fit */
+.card-grid{ display:grid; gap:1.8em; }
+.card-grid--3{ grid-template-columns:repeat(3, 1fr); }
+.card-grid--2{ grid-template-columns:repeat(2, 1fr); }
+.card-grid--gallery{ grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:1.4em; }
+
+/* ---------- report cards ---------- */
+.card{
+  position:relative; background:#fff; border-radius:var(--radius-m); overflow:hidden;
+  box-shadow:var(--shadow-card); transition:transform .25s ease, box-shadow .25s ease;
+  display:flex; flex-direction:column;
+}
+.card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lift); }
+.card img{ height:190px; object-fit:cover; width:100%; }
+.card__stamp{
+  position:absolute; top:170px; right:1.2em; font-family:var(--font-mono); font-size:.62rem;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--maroon-700); background:#fff;
+  border:1.5px dashed var(--maroon-700); border-radius:50%; width:56px; height:56px;
+  display:grid; place-items:center; transform:rotate(-12deg); text-align:center; line-height:1.1;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+.card__body{ padding:1.6em 1.5em 1.8em; display:flex; flex-direction:column; gap:.3em; }
+.card__kicker{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); font-weight:700; margin:0; }
+.card__body h3{ font-size:1.15rem; margin:.2em 0 .3em; }
+.card__desc{ color:var(--ink-soft); font-size:.92rem; flex:1; }
+.card__link{
+  background:none; border:none; padding:0; text-align:left; font-weight:600; color:var(--maroon-700);
+  display:inline-flex; align-items:center; gap:.35em; font-size:.92rem;
+}
+.card__link span{ transition:transform .15s ease; }
+.card__link:hover span{ transform:translateX(4px); }
+
+/* ---------- filter chips ---------- */
+.filter-row{ display:flex; gap:.7em; flex-wrap:wrap; justify-content:center; margin-bottom:2.6em; }
+.filter-chip{
+  border:1px solid var(--line); background:#fff; padding:.5em 1.2em; border-radius:999px;
+  font-size:.85rem; font-weight:600; color:var(--ink-soft); transition:.15s;
+}
+.filter-chip.is-active,.filter-chip:hover{ background:var(--maroon-700); color:#fff; border-color:var(--maroon-700); }
+
+/* ---------- gallery cards ---------- */
+.gallery-card{ background:#fff; border-radius:var(--radius-m); overflow:hidden; box-shadow:var(--shadow-card); transition:transform .2s ease; }
+.gallery-card:hover{ transform:translateY(-4px); }
+.gallery-card img{ height:130px; object-fit:cover; width:100%; }
+.gallery-card figcaption{ padding:1em 1.1em 1.3em; }
+.gallery-card h4{ font-size:.9rem; margin:.25em 0; font-family:var(--font-body); font-weight:700; color:var(--ink); }
+.gallery-card time{ font-family:var(--font-mono); font-size:.68rem; color:var(--ink-soft); }
+
+/* ---------- map section ---------- */
+.map-layout{ display:grid; grid-template-columns:.9fr 1.1fr; gap:3em; align-items:center; }
+.map-layout__figure{ margin:0; border-radius:var(--radius-l); overflow:hidden; box-shadow:var(--shadow-card); }
+.map-layout__figure figcaption{ padding:.8em 1.2em; font-size:.8rem; color:var(--ink-soft); background:#fff; }
+
+/* ---------- article cards ---------- */
+.article-card{ background:#fff; border-radius:var(--radius-m); overflow:hidden; box-shadow:var(--shadow-card); transition:transform .2s ease; }
+.article-card:hover{ transform:translateY(-5px); }
+.article-card img{ height:190px; object-fit:cover; width:100%; }
+.article-card__body{ padding:1.6em 1.5em; }
+.article-card h3,.article-card h4{ font-size:1.1rem; }
+
+/* =====================================================================
+   FAQ / ACCORDION
+   ===================================================================== */
+.faq-layout{ display:grid; grid-template-columns:.9fr 1.1fr; gap:3.5em; }
+.accordion{ display:flex; flex-direction:column; gap:.9em; }
+.accordion__item{
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius-m); padding:1.1em 1.4em; overflow:hidden;
+}
+.accordion__item summary{
+  cursor:pointer; font-weight:600; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1em;
+}
+.accordion__item summary::-webkit-details-marker{ display:none; }
+.accordion__item summary::after{
+  content:"+"; font-size:1.3rem; color:var(--maroon-700); flex-shrink:0; transition:transform .2s ease;
+}
+.accordion__item[open] summary::after{ content:"–"; }
+.accordion__item p{ margin:.9em 0 0; color:var(--ink-soft); font-size:.94rem; }
+
+/* =====================================================================
+   MODALS (dialog)
+   ===================================================================== */
+.modal{
+  border:none; border-radius:var(--radius-l); padding:0; max-width:560px; width:92vw;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.4);
+}
+.modal::backdrop{ background:rgba(36,28,24,.55); backdrop-filter:blur(2px); }
+.modal__panel{ padding:2.4em 2.2em; position:relative; }
+.modal--wide{ max-width:1150px; }
+.modal__panel--wide{ max-height:82vh; overflow-y:auto; }
+.modal__close{
+  position:absolute; top:1.4em; right:1.4em; background:var(--paper-dim); border:none; border-radius:50%;
+  width:36px; height:36px; font-size:.95rem; color:var(--maroon-700);
+}
+.modal__close:hover{ background:var(--maroon-700); color:#fff; }
+.modal-list{ display:flex; flex-direction:column; gap:.4em; margin-top:1em; }
+.modal-list button{
+  width:100%; text-align:left; background:var(--paper-dim); border:none; padding:.9em 1.1em;
+  border-radius:var(--radius-s); font-weight:500; font-size:.92rem;
+}
+.modal-list button:hover{ background:var(--gold-100); }
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.site-footer{ background:var(--maroon-900); color:rgba(255,255,255,.85); padding:4.5em 1.5em 1.5em; }
+.footer-grid{
+  max-width:var(--container); margin:0 auto; display:flex; flex-wrap:wrap; gap:2.5em; padding-bottom:2.5em;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.footer-brand{ flex:1 1 220px; }
+.footer-brand img{ height:60px; width:auto; margin-bottom:.6em; }
+.footer-brand__name{ font-family:var(--font-display); font-size:1.1rem; color:#fff; margin:0; }
+.footer-brand address{ font-style:normal; font-size:.85rem; margin-top:.8em; line-height:1.7; }
+.footer-brand address a{ color:var(--gold); text-decoration:none; }
+.footer-col{ flex:1 1 120px; display:flex; flex-direction:column; gap:.7em; }
+.footer-col h5{ color:#fff; font-family:var(--font-body); font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; margin:0 0 .3em; }
+.footer-col a{ font-size:.88rem; text-decoration:none; color:rgba(255,255,255,.72); }
+.footer-col a:hover{ color:var(--gold); }
+.footer-bottom{
+  max-width:var(--container); margin:0 auto; display:flex; justify-content:space-between; align-items:center;
+  padding-top:1.5em; font-size:.8rem; flex-wrap:wrap; gap:1em;
+}
+.footer-bottom select{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,.3); border-radius:6px; padding:.4em .7em; }
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width:980px){
+  .hero__grid{ grid-template-columns:1fr; }
+  .ledger-card{ top:0; }
+  .map-layout{ grid-template-columns:1fr; }
+  .faq-layout{ grid-template-columns:1fr; }
+  .card-grid--3{ grid-template-columns:repeat(2,1fr); }
+  .card-grid--2{ grid-template-columns:1fr; }
+}
+
+@media (max-width:760px){
+  .nav-links{
+    position:absolute; top:100%; left:0; right:0; background:var(--maroon-900); flex-direction:column;
+    padding:1.5em; gap:1em; display:none;
+  }
+  .nav-toggle:checked ~ .nav-links{ display:flex; }
+  .nav-burger{ display:flex; }
+  .navbar{ position:relative; }
+  .navbar__cta{ display:none; }
+  .card-grid--3{ grid-template-columns:1fr; }
+  .section__head{ flex-direction:column; align-items:flex-start; }
+  .card-grid--gallery{ grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); }
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================= HEADER ============================= -->
+<header class="site-header">
+  <div class="topbar">
+    <span class="topbar__seal">&#9670;</span>
+    REPUBLIC OF THE PHILIPPINES &nbsp;·&nbsp; AN OFFICIAL COMMISSION ON AUDIT PORTAL
+  </div>
+
+  <nav class="navbar" aria-label="Primary">
+    <a class="brand" href="#home">
+      <img src="images/DA_LOGO_2-removebg-preview.png" alt="Commission on Audit logo" class="brand__mark">
+      <span class="brand__name">Disaster<em>Audit</em></span>
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+    <label for="nav-toggle" class="nav-burger" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </label>
+
+    <ul class="nav-links">
+      <li><a href="#reports">Reports</a></li>
+      <li><a href="#library">Gallery</a></li>
+      <li><a href="#news">Articles</a></li>
+      <li><a href="#faq">FAQs</a></li>
+      <li><a href="#contact">Contacts</a></li>
+    </ul>
+
+    <div class="navbar__cta">
+      <a href="#contact" class="btn btn--ghost">Contact support</a>
+      <a href="#reports" class="btn btn--solid">Get started</a>
+    </div>
+  </nav>
+
+  <!-- ============================= HERO ============================= -->
+  <section class="hero" id="home">
+    <div class="hero__grid">
+
+      <div class="hero__copy">
+        <p class="eyebrow">Case File No. AR-2026-DRRM</p>
+        <h1 class="hero__title">
+          Every peso for <span>disaster response</span> should reach the ground it was meant for.
+        </h1>
+        <p class="hero__lede">
+          Disaster Audit is the Commission on Audit's public ledger for calamity funds —
+          tracing allocations, relief, and rehabilitation spending from the national treasury
+          down to the barangay, in the open.
+        </p>
+
+        <form class="search-bar" role="search" onsubmit="return false;">
+          <label for="search" class="sr-only">Search tracking numbers, allocations, or reports</label>
+          <input id="search" type="text" placeholder="Search tracking numbers, disaster allocations, or regional reports…">
+          <button type="submit" aria-label="Search">&#128269;</button>
+        </form>
+
+        <div class="hero__stats">
+          <div><strong>&#8369;45B+</strong><span>Calamity funds tracked</span></div>
+          <div><strong>1,400+</strong><span>Response teams monitored</span></div>
+          <div><strong>81</strong><span>Provinces covered</span></div>
+        </div>
+      </div>
+
+      <aside class="ledger-card" aria-label="Live allocation monitor, simulated data">
+        <div class="ledger-card__head">
+          <span class="pulse-dot"></span> LIVE ALLOCATION MONITOR
+          <span class="ledger-card__tag">simulation</span>
+        </div>
+
+        <ul class="ledger-feed">
+          <li>
+            <span class="ledger-feed__agency">DSWD</span>
+            <p>Allocated <strong>&#8369;45,000,000</strong> for Region V Calamity Response Operations.</p>
+            <time>Processed 4 mins ago</time>
+          </li>
+          <li>
+            <span class="ledger-feed__agency">NDRRMC</span>
+            <p>Disbursed Quick Response Fund (QRF) for Infrastructure Rehabilitation.</p>
+            <time>Processed 1 hour ago</time>
+          </li>
+          <li>
+            <span class="ledger-feed__agency">DILG</span>
+            <p>Emergency Logistics Operations clearance verified.</p>
+            <time>Processed 3 hours ago</time>
+          </li>
+        </ul>
+
+        <div class="ledger-card__foot">
+          <div class="partner-logos">
+            <a href="https://ndrrmc.gov.ph" target="_blank" rel="noopener"><img src="images/ndrrmcdoc1.jpg" alt="NDRRMC"></a>
+            <a href="https://dilg.gov.ph" target="_blank" rel="noopener"><img src="images/DILGdocu3.jpg" alt="DILG"></a>
+            <a href="https://dswd.gov.ph" target="_blank" rel="noopener"><img src="images/dswddocu2.jpg" alt="DSWD"></a>
+          </div>
+          <span class="muted">+1,400 teams tracked</span>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+</header>
+
+<main id="main">
+
+<!-- ============================= REPORTS ============================= -->
+<section class="section" id="reports">
+  <div class="section__head">
+    <div>
+      <p class="eyebrow">Welcome to Disaster Audit</p>
+      <h2>An attempt to improve accountability<br>over disaster funds.</h2>
+    </div>
+    <button class="carousel-btn" type="button" aria-hidden="true">&#8942;</button>
+  </div>
+
+  <div class="card-grid card-grid--3">
+
+    <article class="card">
+      <img src="images/Disaster image.jpg" alt="Aerial view of landslide affected community" loading="lazy">
+      <div class="card__stamp">Filed</div>
+      <div class="card__body">
+        <p class="card__kicker">DRRM</p>
+        <h3>Assessment of Disaster Risk Reduction Management at the Local Level</h3>
+        <p class="card__desc">A limited scoping and analysis of existing DRRM practices at the Local Government Units using existing literature&hellip;</p>
+        <button class="card__link" type="button" onclick="document.getElementById('modal-report1').showModal()">Read more <span>&#8594;</span></button>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="images/Building Report Sec.jpg" alt="Modern government office building" loading="lazy">
+      <div class="card__stamp">Filed</div>
+      <div class="card__body">
+        <p class="card__kicker">Typhoon Yolanda</p>
+        <h3>A Special Report on Typhoon Yolanda</h3>
+        <p class="card__desc">A limited scoping and analysis of existing DRRM practices at the Local Government Units using existing literature&hellip;</p>
+        <button class="card__link" type="button" onclick="document.getElementById('modal-report2').showModal()">Read more <span>&#8594;</span></button>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="images/Report sec.jpg" alt="Stack of audit documents on a desk" loading="lazy">
+      <div class="card__stamp">Filed</div>
+      <div class="card__body">
+        <p class="card__kicker">Category</p>
+        <h3>Citizen Participatory Audit</h3>
+        <p class="card__desc">Voluptate velit nulla cillum do esse. Tempor dolore aliqua reprehenderit consequat.</p>
+        <button class="card__link" type="button" onclick="document.getElementById('modal-report3').showModal()">Read more <span>&#8594;</span></button>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="section__more">
+    <button class="btn btn--outline" type="button" onclick="document.getElementById('modal-reports-overview').showModal()">View all reports</button>
+  </div>
+
+  <!-- report modals -->
+  <dialog id="modal-report1" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report1').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">DRRM</p>
+      <h3>Assessment of Disaster Risk Reduction Management at the Local Level</h3>
+      <p>A limited scoping and analysis of existing Disaster Risk Reduction and Management (DRRM) practices at the Local Government Unit level, drawing on existing literature, agency reports, and field validation. The assessment looks at how provincial, city, and municipal DRRM offices plan for, budget, and account for calamity funds, and identifies recurring gaps between what is allocated on paper and what actually reaches affected communities.</p>
+      <p>Key findings cover fund utilization rates, the timeliness of disbursements after a calamity declaration, and common documentation issues auditors encounter when tracing relief goods and cash aid back to their source appropriations.</p>
+      <a class="btn btn--solid" href="documents/ndrrmcrep1.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-report2" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report2').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Typhoon Yolanda</p>
+      <h3>A Special Report on Typhoon Yolanda</h3>
+      <p>This special report examines the disbursement and use of national and international relief funds following Typhoon Yolanda (Haiyan), one of the strongest storms on record to make landfall. It traces the flow of assistance from national agencies through local government units and down to the barangay level.</p>
+      <p>The report highlights lessons learned around emergency procurement rules, donor-fund reconciliation, and the rebuilding of damaged public infrastructure, with recommendations aimed at tightening controls for future large-scale disaster response.</p>
+      <a class="btn btn--solid" href="documents/Yolandarep2.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-report3" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report3').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Category</p>
+      <h3>Citizen Participatory Audit</h3>
+      <p>The Citizen Participatory Audit (CPA) program invites ordinary citizens, civil society groups, and community volunteers to take part directly in the audit process for disaster-related projects, from small flood-control structures to relief-goods warehousing.</p>
+      <p>By pairing trained COA auditors with community observers, the program builds local capacity to spot red flags early, such as ghost deliveries or overpriced materials, and strengthens public trust in how calamity funds are eventually accounted for.</p>
+      <a class="btn btn--solid" href="documents/citizenryrep3.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-report4" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report4').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Flood Control</p>
+      <h3>Audit of Flood Control Infrastructure Projects</h3>
+      <p>A review of flood-control structures funded under national disaster mitigation programs, covering drainage systems, floodwalls, and pumping stations across flood-prone provinces. The audit checks whether completed structures match approved engineering plans and released funds.</p>
+      <p>Findings point to delayed completion timelines in several provinces and recommend stronger coordination between the Department of Public Works and Highways and local disaster councils.</p>
+      <a class="btn btn--solid" href="documents/rep4dl.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-report5" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report5').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Relief Goods</p>
+      <h3>Tracking Relief Goods Distribution</h3>
+      <p>This report follows the movement of relief goods, food packs, and hygiene kits from national warehouses down to barangay distribution points after major typhoons. It cross-checks delivery receipts against beneficiary lists to spot gaps or duplication.</p>
+      <p>The audit recommends a standardized digital tracking system to replace manual logbooks currently used by most local government units.</p>
+      <a class="btn btn--solid" href="documents/relief-report.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-report6" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-report6').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Early Warning</p>
+      <h3>Evaluation of Early Warning Systems</h3>
+      <p>An assessment of government-funded early warning equipment, including rain gauges, water level sensors, and community alert sirens installed in high-risk municipalities. The report examines maintenance records and response times during recent weather events.</p>
+      <p>It highlights several units left unmaintained since installation and recommends a regular inspection schedule tied to local disaster risk reduction budgets.</p>
+      <a class="btn btn--solid" href="documents/early-warning-report.pdf" download>Download full report</a>
+    </div>
+  </dialog>
+
+  <dialog id="modal-reports-overview" class="modal" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel">
+      <button class="modal__close" onclick="document.getElementById('modal-reports-overview').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">More reports</p>
+      <h3>All available reports</h3>
+      <ul class="modal-list">
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report1').showModal();">DRRM — Assessment of Disaster Risk Reduction Management at the Local Level</button></li>
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report2').showModal();">Typhoon Yolanda — A Special Report on Typhoon Yolanda</button></li>
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report3').showModal();">Category — Citizen Participatory Audit</button></li>
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report4').showModal();">Flood Control — Audit of Flood Control Infrastructure Projects</button></li>
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report5').showModal();">Relief Goods — Tracking Relief Goods Distribution</button></li>
+        <li><button type="button" onclick="document.getElementById('modal-reports-overview').close(); document.getElementById('modal-report6').showModal();">Early Warning — Evaluation of Early Warning Systems</button></li>
+      </ul>
+    </div>
+  </dialog>
+</section>
+
+<!-- ============================= LIBRARY ============================= -->
+<section class="section section--tinted" id="library">
+  <div class="section__head section__head--center">
+    <p class="eyebrow">Documentation library</p>
+    <h2>Field records, on the record.</h2>
+    <p class="section__lede">Visual documentation of Commission on Audit's disaster response audits, field operations, and rehabilitation assessments — ensuring transparency and fiscal accountability where it matters most.</p>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-chip is-active" type="button">All</button>
+    <button class="filter-chip" type="button">Tacloban</button>
+    <button class="filter-chip" type="button">Briefing</button>
+    <button class="filter-chip" type="button">GACPA</button>
+    <button class="filter-chip" type="button">Relief</button>
+  </div>
+
+  <div class="card-grid card-grid--3">
+    <figure class="gallery-card">
+      <img src="images/docsec1.jpg" alt="DRRM Seminar" loading="lazy">
+      <figcaption>
+        <p class="card__kicker">DRRM Seminar</p>
+        <h4>Commissioner Mendoza @ DRRM Seminar during GACPA Convention</h4>
+        <time>May 24, 2014</time>
+      </figcaption>
+    </figure>
+    <figure class="gallery-card">
+      <img src="images/docsec2.jpg" alt="Relief Operations" loading="lazy">
+      <figcaption>
+        <p class="card__kicker">DSWD</p>
+        <h4>Relief Operations for the victims of typhoon Yolanda</h4>
+        <time>Nov 8, 2013</time>
+      </figcaption>
+    </figure>
+    <figure class="gallery-card">
+      <img src="images/docsec3.jpg" alt="Briefing for COA Auditors" loading="lazy">
+      <figcaption>
+        <p class="card__kicker">COA/DRR</p>
+        <h4>Briefing for COA Auditors of about DRR</h4>
+        <time>Nov 20, 2022</time>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="section__more">
+    <button class="btn btn--outline" type="button" onclick="document.getElementById('modal-library-gallery').showModal()">View full gallery</button>
+  </div>
+
+  <dialog id="modal-library-gallery" class="modal modal--wide" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel modal__panel--wide">
+      <button class="modal__close" onclick="document.getElementById('modal-library-gallery').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">Documentation library</p>
+      <h3>Full photo gallery</h3>
+
+      <div class="card-grid card-grid--gallery">
+        <figure class="gallery-card"><img src="images/docsec1.jpg" alt="Commissioner Mendoza at DRRM Seminar" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Commissioner Mendoza @ DRRM Seminar during GACPA Convention</h4><time>May 24, 2014</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/docsec2.jpg" alt="Relief operations for typhoon Yolanda victims" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Relief Operations for the victims of typhoon Yolanda</h4><time>Nov 8, 2013</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/docsec3.jpg" alt="Briefing for COA auditors" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Briefing for COA Auditors of about DRR</h4><time>Nov 20, 2022</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-04.jpg" alt="Post-Yolanda rehabilitation site visit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Post-Yolanda Rehabilitation Site Visit</h4><time>Jan 15, 2015</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-05.jpg" alt="Joint disaster simulation exercise" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Joint Disaster Simulation Exercise</h4><time>Mar 3, 2016</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-06.jpg" alt="Distribution of relief packs in Region VIII" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Distribution of Relief Packs in Region VIII</h4><time>Aug 19, 2016</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-07.jpg" alt="GACPA national convention highlights" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>GACPA National Convention Highlights</h4><time>May 22, 2017</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-08.jpg" alt="Auditor's briefing on calamity fund utilization" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Auditor's Briefing on Calamity Fund Utilization</h4><time>Feb 9, 2018</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-09.jpg" alt="Field validation of evacuation centers" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Field Validation of Evacuation Centers</h4><time>Jul 14, 2018</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-10.jpg" alt="Typhoon Yolanda memorial program" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Typhoon Yolanda Memorial Program</h4><time>Nov 8, 2018</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-11.jpg" alt="Cash-for-work program monitoring visit" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Cash-for-Work Program Monitoring Visit</h4><time>Apr 2, 2019</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-12.jpg" alt="Local DRRM officers training workshop" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Local DRRM Officers Training Workshop</h4><time>Jun 27, 2019</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-13.jpg" alt="National disaster response drill" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>National Disaster Response Drill</h4><time>Sep 5, 2019</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-14.jpg" alt="Flood relief goods inventory check" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Flood Relief Goods Inventory Check</h4><time>Jan 20, 2020</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-15.jpg" alt="Special audit team deployment briefing" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Special Audit Team Deployment Briefing</h4><time>May 11, 2020</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-16.jpg" alt="Post-disaster needs assessment briefing" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Post-Disaster Needs Assessment Briefing</h4><time>Aug 3, 2020</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-17.jpg" alt="Regional GACPA chapter meeting" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>Regional GACPA Chapter Meeting</h4><time>Oct 14, 2020</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-18.jpg" alt="Site inspection of flood control projects" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Site Inspection of Flood Control Projects</h4><time>Feb 8, 2021</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-19.jpg" alt="Tacloban resettlement site audit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Tacloban Resettlement Site Audit</h4><time>Apr 25, 2021</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-20.jpg" alt="Family assistance package distribution" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Family Assistance Package Distribution</h4><time>Jun 30, 2021</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-21.jpg" alt="Inter-agency coordination meeting" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Inter-Agency Coordination Meeting</h4><time>Sep 16, 2021</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-22.jpg" alt="Relief goods warehousing inspection" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Relief Goods Warehousing Inspection</h4><time>Dec 1, 2021</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-23.jpg" alt="Auditors' roundtable on fund utilization" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Auditors' Roundtable on Fund Utilization</h4><time>Mar 9, 2022</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-24.jpg" alt="Calamity fund orientation for new auditors" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Calamity Fund Orientation for New Auditors</h4><time>Jun 21, 2022</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-25.jpg" alt="GACPA regional convention recap" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>GACPA Regional Convention Recap</h4><time>Sep 2, 2022</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-26.jpg" alt="Evacuation center readiness check" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Evacuation Center Readiness Check</h4><time>Jan 18, 2023</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-27.jpg" alt="Ongoing rehabilitation projects review" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Ongoing Rehabilitation Projects Review</h4><time>Apr 7, 2023</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-28.jpg" alt="Emergency shelter assistance monitoring" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Emergency Shelter Assistance Monitoring</h4><time>Jul 22, 2023</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-29.jpg" alt="Disaster risk reduction summit" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Disaster Risk Reduction Summit</h4><time>Oct 30, 2023</time></figcaption></figure>
+        <figure class="gallery-card"><img src="images/lib-30.jpg" alt="Year-end relief operations report" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Year-End Relief Operations Report</h4><time>Dec 15, 2023</time></figcaption></figure>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<!-- ============================= RISK MAP ============================= -->
+<section class="section" id="map">
+  <div class="map-layout">
+    <div class="map-layout__copy">
+      <p class="eyebrow">+55,000 records cross-checked</p>
+      <h2>Philippines</h2>
+      <p>The Philippines is considered one of the nations most "at risk" of being struck by disasters due to its geographic location, astride both the typhoon belt and the Pacific Ring of Fire.</p>
+      <div class="partner-logos partner-logos--large">
+        <a href="https://www.preventionweb.net/organization/national-disaster-risk-reduction-and-management-council-philippines" target="_blank" rel="noopener"><img src="images/ndrrmcdoc1.jpg" alt="NDRRMC"></a>
+        <a href="https://www.dilg.gov.ph/" target="_blank" rel="noopener"><img src="images/DILGdocu3.jpg" alt="DILG"></a>
+        <a href="https://www.dswd.gov.ph/" target="_blank" rel="noopener"><img src="images/dswddocu2.jpg" alt="DSWD"></a>
+      </div>
+      <span class="muted">+1,400 volunteer teams</span>
+    </div>
+
+    <figure class="map-layout__figure">
+      <img src="images/EQs_1900-2013_worldseis.png" alt="Map showing disaster risk zones across the Philippines" loading="lazy">
+      <figcaption>Seismic and typhoon exposure, 1900–2013</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================= NEWS ============================= -->
+<section class="section section--tinted" id="news">
+  <div class="section__head section__head--center">
+    <p class="eyebrow">From the newsroom</p>
+    <h2>Articles &amp; briefings</h2>
+  </div>
+
+  <div class="card-grid card-grid--2">
+    <article class="article-card">
+      <img src="images/article1.jpg" alt="Archival photo of early disaster relief efforts" loading="lazy">
+      <div class="article-card__body">
+        <h3>Evolution of Disaster Laws in the Philippines</h3>
+        <p>The Philippine disaster management system traces its origin to 1941, when President Manuel L. Quezon issued Executive Order No. 335.</p>
+        <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <img src="images/article 3.jpg" alt="COA disaster risk reduction governance conference" loading="lazy">
+      <div class="article-card__body">
+        <h3>Developing a Governance Framework on DRRM</h3>
+        <p>The Commission on Audit conducted a disaster risk reduction conference on July 30, 2013, at the COA Professional Development Center.</p>
+        <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <img src="images/article2.jpg" alt="Disaster scene illustrating need for accounting guide" loading="lazy">
+      <div class="article-card__body">
+        <h3>Why Do We Need an Accounting Guide?</h3>
+        <p>Republic Act No. 10121, better known as the Philippine Disaster Risk Reduction and Management Act of 2010.</p>
+        <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <img src="images/article 4.jpg" alt="Aerial photo of disaster-affected community" loading="lazy">
+      <div class="article-card__body">
+        <h3>Field Perspectives on DRRM Governance</h3>
+        <p>On-the-ground notes from the Commission on Audit's 2013 disaster risk reduction conference series.</p>
+        <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+      </div>
+    </article>
+  </div>
+
+  <div class="section__more">
+    <button class="btn btn--outline" type="button" onclick="document.getElementById('modal-articles-gallery').showModal()">Read more articles</button>
+  </div>
+
+  <dialog id="modal-articles-gallery" class="modal modal--wide" onclick="if(event.target===this){this.close()}">
+    <div class="modal__panel modal__panel--wide">
+      <button class="modal__close" onclick="document.getElementById('modal-articles-gallery').close()" aria-label="Close">&#10005;</button>
+      <p class="card__kicker">News &amp; articles</p>
+      <h3>All articles</h3>
+
+      <div class="card-grid card-grid--3">
+        <article class="article-card">
+          <img src="images/article1.jpg" alt="Evolution of disaster laws in the Philippines" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">History</p>
+            <h4>Evolution of Disaster Laws in the Philippines</h4>
+            <p class="muted">Traces the system back to Executive Order No. 335, signed in 1941.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/article 3.jpg" alt="Developing governance framework on DRRM" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">Governance</p>
+            <h4>Developing a Governance Framework on DRRM</h4>
+            <p class="muted">Highlights from the COA disaster risk reduction conference, July 30, 2013.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/article2.jpg" alt="Why do we need an accounting guide" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">Policy</p>
+            <h4>Why Do We Need an Accounting Guide?</h4>
+            <p class="muted">Context around RA 10121, the Philippine DRRM Act of 2010.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/art-05.jpg" alt="Auditing emergency procurement" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">Procurement</p>
+            <h4>Auditing Emergency Procurement Rules</h4>
+            <p class="muted">How negotiated procurement is monitored during calamity response.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/art-06.jpg" alt="Tracing donor fund reconciliation" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">Finance</p>
+            <h4>Tracing Donor Fund Reconciliation</h4>
+            <p class="muted">Matching international aid pledges to actual disbursements.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/art-07.jpg" alt="Inside the citizen participatory audit" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">CPA</p>
+            <h4>Inside the Citizen Participatory Audit</h4>
+            <p class="muted">How community volunteers help auditors spot red flags early.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+        <article class="article-card">
+          <img src="images/art-08.jpg" alt="Lessons from Typhoon Yolanda recovery" loading="lazy">
+          <div class="article-card__body">
+            <p class="card__kicker">Tacloban</p>
+            <h4>Lessons From Typhoon Yolanda Recovery</h4>
+            <p class="muted">A decade-later look at rebuilding and fund controls.</p>
+            <a href="#" class="card__link">Read the full article <span>&#8594;</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<!-- ============================= FAQ ============================= -->
+<section class="section faq-section" id="faq">
+  <div class="faq-layout">
+    <div class="faq-layout__intro">
+      <p class="eyebrow">FAQs</p>
+      <h2>How can we help you?</h2>
+      <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
+    </div>
+
+    <div class="accordion">
+      <details class="accordion__item" open>
+        <summary>What is the "Disaster Audit" site by the Commission on Audit, and what should I know about its purpose?</summary>
+        <p>The Disaster Audit site is an official Commission on Audit (COA) portal that publishes audit findings, summaries, and related documentation on disaster fund utilization.</p>
+      </details>
+      <details class="accordion__item">
+        <summary>Who should I contact for media, research, or official inquiries?</summary>
+        <p>Reach the COA Public Information Office through the contact details listed in the footer below.</p>
+      </details>
+      <details class="accordion__item">
+        <summary>How is personal or sensitive information handled on the site?</summary>
+        <p>All data shared through the portal is handled in accordance with the Data Privacy Act of 2012.</p>
+      </details>
+      <details class="accordion__item">
+        <summary>How do I request additional information or report a records request?</summary>
+        <p>Submit a request through the Freedom of Information (FOI) portal linked in Quick Links.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="site-footer" id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/Paper_Logo_Mockup_PHOTOPEA-removebg-preview.png" alt="Commission on Audit logo">
+      <p class="footer-brand__name">Disaster Audit</p>
+      <p class="muted">Commission on Audit</p>
+      <address>
+        Commonwealth Avenue, Quezon City 1121, Philippines<br>
+        (02) 8931-7592<br>
+        <a href="mailto:info@coa.gov.ph">info@coa.gov.ph</a>
+      </address>
+    </div>
+
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#">Features</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Blog</a>
+      <a href="#">User guides</a>
+      <a href="#">Webinars</a>
+    </div>
+    <div class="footer-col">
+      <h5>Community</h5>
+      <a href="#">Developers</a>
+      <a href="#">Users</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Join us</a>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <a href="#">Help center</a>
+      <a href="#">Chat support</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <select aria-label="Language">
+      <option>English</option>
+      <option>Filipino</option>
+    </select>
+    <p>&copy; 2026 Commission on Audit &bull; Privacy &bull; Terms &bull; Quezon City</p>
+  </div>
+</footer>
+
+</body>
+</html>
