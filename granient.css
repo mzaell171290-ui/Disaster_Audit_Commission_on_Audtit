@@ -1,0 +1,15 @@
+/* =====================================================================
+   GRAINIENT — background container
+   Same rules as the original Grainient.css, plus the same absolute
+   positioning + pointer-events trick used for the old Prism background,
+   so it sits behind the hero copy and never blocks clicks.
+   ===================================================================== */
+.grainient-container{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
