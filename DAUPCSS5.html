@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disaster Audit — Commission on Audit</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="description" content="The Commission on Audit ensures every peso allocated for disaster response reaches its intended purpose.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   DISASTER AUDIT — design tokens
+   Signature: a public "ledger" — hairline rules, tabular data, a rotated
+   verification stamp — borrowed from the audit trail itself.
+   ===================================================================== */
+:root{
+  --maroon-950:#170709;
+  --maroon-900:#3D0C16;
+  --maroon-700:#7F1425;
+  --maroon-600:#9C1B2F;
+  --maroon-050:#F3E1E3;
+  --coral:#A83347;
+  --coral-100:#EFD7DB;
+  --teal:#A39B8B;
+  --gold:#A39B8B;
+  --gold-100:#EDE8DE;
+  --paper:#F9F6F0;
+  --paper-dim:#EFE9DC;
+  --ink:#1A1616;
+  --ink-soft:#3D3A31;
+  --line:#C9C0AE;
+  --white:#FFFFFF;
+
+  --font-display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body:"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius-s:6px;
+  --radius-m:14px;
+  --radius-l:26px;
+  --shadow-card:0 1px 2px rgba(58,15,20,.06), 0 12px 30px -18px rgba(58,15,20,.35);
+  --shadow-lift:0 20px 45px -20px rgba(58,15,20,.45);
+  --container:1200px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; margin:0 0 .5em; color:var(--maroon-900); }
+p{ margin:0 0 1em; }
+ul{ margin:0; padding:0; list-style:none; }
+button{ font-family:inherit; cursor:pointer; }
+
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.skip-link{
+  position:absolute; left:-999px; top:0; background:var(--maroon-700); color:#fff;
+  padding:.8em 1.2em; z-index:999; border-radius:0 0 var(--radius-s) 0;
+}
+.skip-link:focus{ left:0; }
+:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+.muted{ color:var(--ink-soft); }
+.eyebrow{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.14em;
+  font-size:.72rem; color:var(--maroon-700); font-weight:600; margin:0 0 .8em;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+  padding:.85em 1.6em; border-radius:999px; font-weight:600; font-size:.92rem;
+  text-decoration:none; border:1.5px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.btn--solid{ background:var(--maroon-700); color:#fff; box-shadow:var(--shadow-card); }
+.btn--solid:hover{ background:var(--maroon-900); transform:translateY(-2px); }
+.btn--ghost{ color:var(--maroon-700); border-color:var(--line); background:transparent; }
+.btn--ghost:hover{ background:var(--maroon-050); }
+.btn--outline{ color:var(--maroon-700); border-color:var(--maroon-700); background:transparent; }
+.btn--outline:hover{ background:var(--maroon-700); color:#fff; }
+
+
+
+/* =====================================================================
+   FAQ — numbered index layout
+   ===================================================================== */
+.faq-section{ position:relative; }
+.faq-head{
+  max-width:var(--container); margin:0 auto 2.5em; position:relative; z-index:1;
+  display:flex; justify-content:space-between; align-items:flex-end; gap:2em; flex-wrap:wrap;
+}
+.faq-head .eyebrow{
+  display:inline-block; background:var(--maroon-900); color:var(--gold-100);
+  padding:.3em .9em; border-radius:999px; letter-spacing:.16em; margin-bottom:.7em;
+}
+.faq-head h2{ font-size:clamp(1.9rem, 2.4vw + 1rem, 2.8rem); margin:0; max-width:14ch; }
+.faq-head p{ max-width:40ch; color:var(--ink-soft); margin:0; }
+
+.faq-index{ display:flex; flex-direction:column; }
+.faq-item{
+  display:grid; grid-template-columns:80px 1fr 24px; gap:1.6em; align-items:start;
+  padding:1.8em 0; border-top:1px solid var(--line);
+  cursor:pointer;
+}
+.faq-index .faq-item:last-child{ border-bottom:1px solid var(--line); }
+.faq-item__num{
+  font-family:var(--font-mono); font-size:1rem; color:var(--gold);
+  font-weight:700; padding-top:.15em;
+}
+.faq-item__body h3{
+  font-size:1.15rem; margin:0; color:var(--maroon-900); transition:color .2s ease;
+}
+.faq-item:hover .faq-item__body h3{ color:var(--maroon-700); }
+.faq-item__answer{
+  max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .3s ease, margin .3s ease;
+  opacity:0; margin-top:0;
+}
+.faq-item.is-open .faq-item__answer{
+  max-height:200px; opacity:1; margin-top:.9em;
+}
+.faq-item__answer p{ margin:0; color:var(--ink-soft); font-size:.94rem; max-width:60ch; }
+.faq-item__icon{
+  width:26px; height:26px; border-radius:50%; background:rgba(127,20,37,.08);
+  display:grid; place-items:center; color:var(--maroon-700); font-size:1.1rem;
+  transition:transform .3s ease, background .2s ease, color .2s ease;
+}
+.faq-item.is-open .faq-item__icon{
+  transform:rotate(135deg); background:var(--maroon-900); color:#fff;
+}
+
+.faq-cta{
+  max-width:var(--container); margin:3em auto 0; position:relative; z-index:1;
+  background:linear-gradient(135deg, var(--maroon-900), var(--maroon-700));
+  border-radius:28px; padding:2.2em 2.5em;
+  display:flex; align-items:center; justify-content:space-between; gap:2em; flex-wrap:wrap;
+}
+.faq-cta__text h3{ color:#fff; margin:0 0 .3em; font-size:1.3rem; }
+.faq-cta__text p{ color:rgba(255,255,255,.65); margin:0; max-width:44ch; }
+.faq-cta a{
+  background:var(--gold); color:var(--maroon-950); font-weight:700; text-decoration:none;
+  padding:.9em 1.7em; border-radius:999px; white-space:nowrap; transition:transform .2s ease;
+  display:inline-block;
+}
+.faq-cta a:hover{ transform:translateY(-2px); }
+
+@media (max-width:760px){
+  .faq-item{ grid-template-columns:44px 1fr 22px; gap:1em; }
+}
+
+
+
+
+/* =====================================================================
+   FOOTER — CTA-led, minimal columns
+   ===================================================================== */
+.site-footer{
+  background:var(--maroon-950); color:rgba(255,255,255,.8);
+  padding:0 1.5em 0; position:relative; overflow:hidden;
+}
+.footer-banner{
+  max-width:var(--container); margin:0 auto; padding:4em 0 3em;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  display:flex; align-items:flex-end; justify-content:space-between; gap:2em; flex-wrap:wrap;
+}
+.footer-banner h2{
+  font-family:var(--font-display); font-style:italic; font-weight:700;
+  color:#fff; font-size:clamp(2rem, 3.5vw + 1rem, 3.3rem); margin:0; max-width:16ch; line-height:1.05;
+}
+.footer-banner h2 em{ color:var(--gold); font-style:italic; }
+.footer-banner .btn--solid{ background:var(--gold); color:var(--maroon-950); box-shadow:none; }
+.footer-banner .btn--solid:hover{ background:#fff; }
+
+.footer-cols{
+  max-width:var(--container); margin:0 auto;
+  display:grid; grid-template-columns:1.6fr 1fr 1fr 1.3fr; gap:3em;
+  padding:3em 0;
+}
+.footer-brand-block{ display:flex; flex-direction:column; gap:1em; max-width:30ch; }
+.footer-brand-block .footer-brand__mark{ display:flex; align-items:center; gap:.6em; text-decoration:none; }
+.footer-brand-block .footer-brand__mark img{ height:28px; width:auto; }
+.footer-brand-block .footer-brand__mark span{ font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:#fff; }
+.footer-brand-block .footer-brand__mark span em{ font-style:italic; color:var(--gold); }
+.footer-brand-block p{ font-size:.86rem; line-height:1.6; color:rgba(255,255,255,.5); margin:0; }
+
+.footer-col h4{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.13em;
+  font-size:.66rem; font-weight:700; color:var(--gold); margin:0 0 1.3em;
+}
+.footer-col ul{ display:flex; flex-direction:column; gap:.85em; }
+.footer-col a{
+  text-decoration:none; font-size:.9rem; color:rgba(255,255,255,.7);
+  border-bottom:1px solid transparent; transition:color .2s ease, border-color .2s ease; padding-bottom:2px;
+}
+.footer-col a:hover{ color:#fff; border-color:var(--gold); }
+.footer-col--contact address{ font-style:normal; font-size:.9rem; color:rgba(255,255,255,.7); }
+.footer-col--contact address p{ margin:0 0 1em; }
+.footer-col--contact a{ color:rgba(255,255,255,.7); }
+.footer-col--contact a:hover{ color:var(--gold); border-color:transparent; }
+
+.footer-meta{
+  max-width:var(--container); margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:1.5em; flex-wrap:wrap;
+  padding:1.8em 0 2.2em; border-top:1px solid rgba(255,255,255,.1);
+}
+.footer-meta p{ margin:0; font-size:.78rem; color:rgba(255,255,255,.4); }
+.footer-meta__right{ display:flex; align-items:center; gap:1.6em; flex-wrap:wrap; }
+.footer-legal{ display:flex; gap:1.4em; flex-wrap:wrap; }
+.footer-legal a{ font-size:.78rem; color:rgba(255,255,255,.5); text-decoration:none; }
+.footer-legal a:hover{ color:var(--gold); }
+.footer-language-selector select{
+  font-family:var(--font-body); font-size:.78rem; padding:.4em 1.7em .4em .9em;
+  border:1px solid rgba(255,255,255,.18); border-radius:6px; background-color:transparent;
+  color:rgba(255,255,255,.6); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='white' stroke-opacity='0.5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m4 6 4 4 4-4'/></svg>");
+  background-repeat:no-repeat; background-position:right .6rem center;
+}
+.footer-language-selector select option{ background-color:var(--maroon-900); color:#fff; }
+
+@media (max-width:980px){
+  .footer-cols{ grid-template-columns:1fr 1fr; row-gap:2.2em; }
+  .footer-brand-block{ grid-column:1 / -1; max-width:none; }
+}
+@media (max-width:600px){
+  .footer-cols{ grid-template-columns:1fr; }
+  .footer-meta{ flex-direction:column; align-items:flex-start; gap:1em; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- ============================= FAQ ============================= -->
+<section class="section faq-section" id="faq">
+  <div class="faq-head">
+    <div>
+      <p class="eyebrow">FAQs</p>
+      <h2>How can we help you?</h2>
+    </div>
+    <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
+  </div>
+
+  <div class="faq-index">
+    <div class="faq-item is-open" onclick="this.classList.toggle('is-open')">
+      <span class="faq-item__num">01</span>
+      <div class="faq-item__body">
+        <h3>What is the "Disaster Audit" site by the Commission on Audit?</h3>
+        <div class="faq-item__answer">
+          <p>The Disaster Audit site is an official Commission on Audit (COA) portal that publishes audit findings, summaries, and related documentation on disaster fund utilization.</p>
+        </div>
+      </div>
+      <span class="faq-item__icon">+</span>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('is-open')">
+      <span class="faq-item__num">02</span>
+      <div class="faq-item__body">
+        <h3>Who should I contact for media, research, or official inquiries?</h3>
+        <div class="faq-item__answer">
+          <p>Reach the COA Public Information Office through the contact details listed in the footer below.</p>
+        </div>
+      </div>
+      <span class="faq-item__icon">+</span>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('is-open')">
+      <span class="faq-item__num">03</span>
+      <div class="faq-item__body">
+        <h3>How is personal or sensitive information handled on the site?</h3>
+        <div class="faq-item__answer">
+          <p>All data shared through the portal is handled in accordance with the Data Privacy Act of 2012.</p>
+        </div>
+      </div>
+      <span class="faq-item__icon">+</span>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('is-open')">
+      <span class="faq-item__num">04</span>
+      <div class="faq-item__body">
+        <h3>How do I request additional information or report a records request?</h3>
+        <div class="faq-item__answer">
+          <p>Submit a request through the Freedom of Information (FOI) portal linked in Quick Links.</p>
+        </div>
+      </div>
+      <span class="faq-item__icon">+</span>
+    </div>
+  </div>
+
+  <div class="faq-cta">
+    <div class="faq-cta__text">
+      <h3>Still have questions?</h3>
+      <p>Get in touch with the Public Information Office directly for media, research, or records requests.</p>
+    </div>
+    <a href="#contact">Contact PIO</a>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="site-footer" id="contact">
+  <div class="footer-banner">
+    <h2>Every peso, <em>accounted for</em>.</h2>
+    <a href="#reports" class="btn btn--solid">Browse reports</a>
+  </div>
+
+  <div class="footer-cols">
+    <div class="footer-brand-block">
+      <a href="#home" class="footer-brand__mark">
+        <img src="images/DA_LOGO_2-removebg-preview.png" alt="Commission on Audit logo">
+        <span>Disaster<em>Audit</em></span>
+      </a>
+      <p>A public ledger for calamity funds, maintained by the Commission on Audit — tracing disaster response spending from the national treasury down to the barangay.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Site sections">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#reports">Reports</a></li>
+        <li><a href="#library">Documentation library</a></li>
+        <li><a href="#news">Articles &amp; briefings</a></li>
+        <li><a href="#map">Risk map</a></li>
+        <li><a href="#faq">FAQs</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Partner agencies and resources">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="https://www.foi.gov.ph/" target="_blank" rel="noopener">FOI portal</a></li>
+        <li><a href="https://ndrrmc.gov.ph" target="_blank" rel="noopener">NDRRMC</a></li>
+        <li><a href="https://dilg.gov.ph" target="_blank" rel="noopener">DILG</a></li>
+        <li><a href="https://dswd.gov.ph" target="_blank" rel="noopener">DSWD</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col footer-col--contact">
+      <h4>Public Information Office</h4>
+      <address>
+        <p>Commission on Audit Central Office<br>Commonwealth Avenue, Quezon City, Philippines</p>
+        <p><a href="mailto:pio@coa.gov.ph">pio@coa.gov.ph</a></p>
+        <p><a href="tel:+6329310026">(02) 8931-7592</a></p>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer-meta">
+    <p>&copy; 2026 Commission on Audit, Republic of the Philippines. All rights reserved.</p>
+    <div class="footer-meta__right">
+      <div class="footer-legal">
+        <a href="#">Privacy notice</a>
+        <a href="#">Data Privacy Act (RA 10173)</a>
+        <a href="#">Terms of use</a>
+      </div>
+      <div class="footer-language-selector">
+        <select aria-label="Select language">
+          <option value="en">English</option>
+          <option value="tl">Filipino</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
