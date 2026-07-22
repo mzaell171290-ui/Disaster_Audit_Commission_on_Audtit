@@ -10,11 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* =====================================================================
-   DISASTER AUDIT — design tokens
-   Signature: a public "ledger" — hairline rules, tabular data, a rotated
-   verification stamp — borrowed from the audit trail itself.
-   ===================================================================== */
 :root{
   --maroon-950:#170709;
   --maroon-900:#3D0C16;
@@ -63,261 +58,388 @@ ul{ margin:0; padding:0; list-style:none; }
 button{ font-family:inherit; cursor:pointer; }
 
 .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
-.skip-link{
-  position:absolute; left:-999px; top:0; background:var(--maroon-700); color:#fff;
-  padding:.8em 1.2em; z-index:999; border-radius:0 0 var(--radius-s) 0;
-}
-.skip-link:focus{ left:0; }
-:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
 
-.muted{ color:var(--ink-soft); }
+/* =====================================================================
+   FAQ — futuristic-simple background
+   Signature: a quiet coordinate grid + a single slow-drifting glow and
+   scan line, referencing an audit "tracking" readout without noise.
+   ===================================================================== */
+.faq-section{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--paper);
+  max-width:none;
+  width:100%;
+  margin:0;
+}
+
+/* fine coordinate grid, barely-there */
+.faq-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(127,20,37,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,20,37,.055) 1px, transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 30%, #000 45%, transparent 92%);
+  mask-image:radial-gradient(ellipse 75% 65% at 50% 30%, #000 45%, transparent 92%);
+}
+
+/* single soft glow, drifting slowly — the one "signature" move */
+.faq-section::after{
+  content:"";
+  position:absolute;
+  top:-20%;
+  right:-10%;
+  width:56vw;
+  height:56vw;
+  max-width:760px;
+  max-height:760px;
+  z-index:0;
+  pointer-events:none;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(163,155,139,.30) 0%, rgba(168,51,71,.12) 45%, transparent 72%);
+  filter:blur(10px);
+  animation:faq-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes faq-drift{
+  from{ transform:translate3d(0,0,0) scale(1); }
+  to{ transform:translate3d(-4%, 3%, 0) scale(1.06); }
+}
+
+/* thin horizontal scan line sweeping the section — quiet, not decorative noise */
+.faq-scanline{
+  position:absolute;
+  left:0;
+  right:0;
+  height:1px;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(90deg, transparent, rgba(168,51,71,.5) 35%, rgba(163,155,139,.65) 50%, rgba(168,51,71,.5) 65%, transparent);
+  animation:faq-scan 9s linear infinite;
+}
+@keyframes faq-scan{
+  0%{ top:6%; opacity:0; }
+  8%{ opacity:.8; }
+  92%{ opacity:.8; }
+  100%{ top:96%; opacity:0; }
+}
+
+/* corner coordinate tags — small audit-readout detail, mono type */
+.faq-coord{
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  font-family:var(--font-mono);
+  font-size:.68rem;
+  letter-spacing:.12em;
+  color:rgba(127,20,37,.28);
+  text-transform:uppercase;
+}
+.faq-coord--tl{ top:1.6em; left:1.6em; }
+.faq-coord--br{ bottom:1.6em; right:1.6em; }
+
+@media (prefers-reduced-motion:reduce){
+  .faq-section::after,
+  .faq-scanline{ animation:none; }
+}
+
+.faq-layout{
+  max-width:var(--container); margin:0 auto;
+  display:grid; grid-template-columns:auto 1fr; gap:3.5em; align-items:start;
+  position:relative; z-index:1;
+}
+.section{ padding:5.5em 1.5em; max-width:var(--container); margin:0 auto; }
+section.faq-section{ max-width:none; margin:0; width:100%; }
+.faq-phone{ flex-shrink:0; padding-top:.2em; }
+.faq-content{ display:flex; flex-direction:column; gap:1.6em; }
+.faq-content__intro p{ margin:0; max-width:56ch; color:var(--ink-soft); }
+.faq-content__intro h2{
+  font-size:clamp(1.8rem, 2vw + 1rem, 2.6rem);
+}
 .eyebrow{
   font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.14em;
   font-size:.72rem; color:var(--maroon-700); font-weight:600; margin:0 0 .8em;
 }
-
-/* ---------- buttons ---------- */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
-  padding:.85em 1.6em; border-radius:999px; font-weight:600; font-size:.92rem;
-  text-decoration:none; border:1.5px solid transparent; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-.btn--solid{ background:var(--maroon-700); color:#fff; box-shadow:var(--shadow-card); }
-.btn--solid:hover{ background:var(--maroon-900); transform:translateY(-2px); }
-.btn--ghost{ color:var(--maroon-700); border-color:var(--line); background:transparent; }
-.btn--ghost:hover{ background:var(--maroon-050); }
-.btn--outline{ color:var(--maroon-700); border-color:var(--maroon-700); background:transparent; }
-.btn--outline:hover{ background:var(--maroon-700); color:#fff; }
-
-
-
-/* =====================================================================
-   FAQ — numbered index layout
-   ===================================================================== */
-.faq-section{ position:relative; }
-.faq-head{
-  max-width:var(--container); margin:0 auto 2.5em; position:relative; z-index:1;
-  display:flex; justify-content:space-between; align-items:flex-end; gap:2em; flex-wrap:wrap;
-}
-.faq-head .eyebrow{
+.faq-content__intro .eyebrow{
   display:inline-block; background:var(--maroon-900); color:var(--gold-100);
-  padding:.3em .9em; border-radius:999px; letter-spacing:.16em; margin-bottom:.7em;
-}
-.faq-head h2{ font-size:clamp(1.9rem, 2.4vw + 1rem, 2.8rem); margin:0; max-width:14ch; }
-.faq-head p{ max-width:40ch; color:var(--ink-soft); margin:0; }
-
-.faq-index{ display:flex; flex-direction:column; }
-.faq-item{
-  display:grid; grid-template-columns:80px 1fr 24px; gap:1.6em; align-items:start;
-  padding:1.8em 0; border-top:1px solid var(--line);
-  cursor:pointer;
-}
-.faq-index .faq-item:last-child{ border-bottom:1px solid var(--line); }
-.faq-item__num{
-  font-family:var(--font-mono); font-size:1rem; color:var(--gold);
-  font-weight:700; padding-top:.15em;
-}
-.faq-item__body h3{
-  font-size:1.15rem; margin:0; color:var(--maroon-900); transition:color .2s ease;
-}
-.faq-item:hover .faq-item__body h3{ color:var(--maroon-700); }
-.faq-item__answer{
-  max-height:0; overflow:hidden; transition:max-height .35s ease, opacity .3s ease, margin .3s ease;
-  opacity:0; margin-top:0;
-}
-.faq-item.is-open .faq-item__answer{
-  max-height:200px; opacity:1; margin-top:.9em;
-}
-.faq-item__answer p{ margin:0; color:var(--ink-soft); font-size:.94rem; max-width:60ch; }
-.faq-item__icon{
-  width:26px; height:26px; border-radius:50%; background:rgba(127,20,37,.08);
-  display:grid; place-items:center; color:var(--maroon-700); font-size:1.1rem;
-  transition:transform .3s ease, background .2s ease, color .2s ease;
-}
-.faq-item.is-open .faq-item__icon{
-  transform:rotate(135deg); background:var(--maroon-900); color:#fff;
+  padding:.3em .9em; border-radius:999px; letter-spacing:.16em;
 }
 
-.faq-cta{
-  max-width:var(--container); margin:3em auto 0; position:relative; z-index:1;
-  background:linear-gradient(135deg, var(--maroon-900), var(--maroon-700));
-  border-radius:28px; padding:2.2em 2.5em;
-  display:flex; align-items:center; justify-content:space-between; gap:2em; flex-wrap:wrap;
+.accordion{ display:flex; flex-direction:column; gap:.9em; }
+.accordion__item{
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(127,20,37,.14);
+  border-radius:22px; padding:1.4em 1.6em; overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
 }
-.faq-cta__text h3{ color:#fff; margin:0 0 .3em; font-size:1.3rem; }
-.faq-cta__text p{ color:rgba(255,255,255,.65); margin:0; max-width:44ch; }
-.faq-cta a{
-  background:var(--gold); color:var(--maroon-950); font-weight:700; text-decoration:none;
-  padding:.9em 1.7em; border-radius:999px; white-space:nowrap; transition:transform .2s ease;
-  display:inline-block;
+.accordion__item:hover{
+  transform:translateY(-3px);
+  box-shadow:0 50px 100px -20px rgba(61,12,22,.55);
+  border-color:var(--maroon-700);
+  background:rgba(255,255,255,.85);
 }
-.faq-cta a:hover{ transform:translateY(-2px); }
+.accordion__item[open]{
+  background:var(--maroon-900); border-color:var(--maroon-900);
+}
+.accordion__item[open] summary{ color:#fff; }
+.accordion__item[open] p{ color:rgba(255,255,255,.75); }
+.accordion__item summary{
+  cursor:pointer; font-weight:700; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1em;
+  font-size:1.02rem;
+}
+.accordion__item summary::-webkit-details-marker{ display:none; }
+.accordion__item summary::after{
+  content:"+"; font-size:1.4rem; color:var(--maroon-700); flex-shrink:0; transition:transform .3s ease, color .25s ease;
+  width:30px; height:30px; border-radius:50%; background:rgba(127,20,37,.08);
+  display:grid; place-items:center;
+}
+.accordion__item[open] summary::after{
+  content:"–"; transform:rotate(180deg); color:#fff; background:rgba(255,255,255,.14);
+}
+.accordion__item p{ margin:.9em 0 0; color:var(--ink-soft); font-size:.94rem; }
 
-@media (max-width:760px){
-  .faq-item{ grid-template-columns:44px 1fr 22px; gap:1em; }
+.phone-frame{
+  width:320px; max-width:100%; margin:0; height:600px;
+  background:linear-gradient(160deg,#0a0a0a,#1c1c1c);
+  border-radius:42px; border:2px solid rgba(163,155,139,.35);
+  padding:9px; position:relative;
+  box-shadow:0 50px 100px -20px rgba(61,12,22,.55), 0 0 0 1px rgba(163,155,139,.08);
+}
+.phone-frame__int{ background:var(--paper); height:100%; border-radius:32px; overflow:hidden; display:flex; flex-direction:column; }
+.phone-frame__top{
+  position:absolute; top:0; right:50%; transform:translate(50%,0%);
+  width:38%; height:22px; background:#000; border-bottom-left-radius:14px; border-bottom-right-radius:14px; z-index:2;
+}
+.phone-frame__speaker{ position:absolute; top:2px; right:50%; transform:translate(50%,0%); width:40%; height:2px; border-radius:2px; background:rgb(20,20,20); }
+.phone-frame__camera{ position:absolute; top:7px; right:84%; transform:translate(50%,0%); width:7px; height:7px; border-radius:50%; background:rgba(163,155,139,.15); }
+.phone-frame__camera .int{ position:absolute; width:3px; height:3px; border-radius:50%; top:50%; right:50%; transform:translate(50%,-50%); background:var(--gold); }
+.phone-frame .btn1,.phone-frame .btn2,.phone-frame .btn3,.phone-frame .btn4{ position:absolute; width:2px; }
+.phone-frame .btn1{ height:50px; top:30%; right:-4px; background:var(--gold); border-radius:2px; }
+.phone-frame .btn2,.phone-frame .btn3{ left:-4px; height:34px; background:var(--gold); border-radius:2px; }
+.phone-frame .btn2{ top:26%; } .phone-frame .btn3{ top:36%; }
+
+.faq-chat-card{ height:100%; display:flex; flex-direction:column; min-height:0; }
+.faq-chat-card__header{
+  background:var(--maroon-900); color:#fff; padding:1.9em 1.2em 1.1em;
+  display:flex; align-items:center; gap:.6em; flex-shrink:0; position:relative; overflow:hidden;
+}
+.faq-chat-card__header::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 20% 0%, rgba(163,155,139,.25), transparent 60%);
+}
+.faq-chat-card__logo{
+  width:26px; height:26px; border-radius:50%; background-color:#fff;
+  background-size:65%; background-position:center; background-repeat:no-repeat; flex-shrink:0;
+  position:relative; z-index:1;
+}
+.faq-chat-card__header strong{ font-family:var(--font-display); font-size:1rem; display:block; position:relative; z-index:1; }
+.faq-chat-card__header span{ font-size:.74rem; color:rgba(255,255,255,.7); display:flex; align-items:center; gap:.4em; position:relative; z-index:1; }
+.faq-chat-card__status-dot{ width:7px; height:7px; border-radius:50%; background:#5CE08A; flex-shrink:0; animation:status-pulse 2s ease-in-out infinite; }
+@keyframes status-pulse{ 0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(92,224,138,.5); } 50%{ opacity:.7; box-shadow:0 0 0 5px rgba(92,224,138,0); } }
+
+.faq-chat-card__body{ flex:1 1 auto; min-height:0; overflow-y:auto; padding:1.1em; display:flex; flex-direction:column; gap:.9em; }
+.faq-chat-card__body::-webkit-scrollbar{ display:none; }
+.faq-chat-card__body{ -ms-overflow-style:none; scrollbar-width:none; }
+
+.chat-msg{ display:flex; gap:.5em; max-width:85%; }
+.chat-msg__avatar{
+  width:24px; height:24px; border-radius:50%; background-color:var(--maroon-700);
+  background-size:60%; background-position:center; background-repeat:no-repeat; flex-shrink:0;
+}
+.chat-msg__bubble{ font-size:.85rem; line-height:1.45; padding:.75em .95em; border-radius:18px; transition:transform .15s ease; }
+.chat-msg__time{ font-family:var(--font-mono); font-size:.62rem; color:var(--ink-soft); margin-top:.35em; display:block; }
+.chat-msg--bot .chat-msg__bubble{
+  background:#fff; border:1px solid var(--line); border-bottom-left-radius:5px; color:var(--ink);
+  box-shadow:0 4px 14px -8px rgba(58,15,20,.2);
+}
+.chat-msg--user{ margin-left:auto; flex-direction:row-reverse; }
+.chat-msg--user .chat-msg__bubble{
+  background:linear-gradient(135deg, var(--maroon-700), var(--maroon-900));
+  color:#fff; border-bottom-right-radius:5px;
+}
+.chat-msg--user .chat-msg__time{ text-align:right; }
+.chat-msg__bubble:hover{ transform:translateY(-1px); }
+
+.faq-chat-card__quick-replies{ display:flex; flex-wrap:wrap; gap:.5em; padding:0 1.1em 1em; flex-shrink:0; }
+.faq-chat-card__quick-replies button{
+  background:#fff; border:1px solid var(--maroon-700); color:var(--maroon-700);
+  font-size:.78rem; font-weight:700; padding:.5em 1em; border-radius:999px; transition:.2s ease;
+}
+.faq-chat-card__quick-replies button:hover{ background:var(--maroon-700); color:#fff; transform:translateY(-2px); }
+
+.faq-chat-card__input{
+  display:flex; align-items:center; gap:.6em; padding:.85em 1em;
+  border-top:1px solid var(--line); background:#fff; flex-shrink:0;
+}
+.faq-chat-card__input input{ flex:1; border:none; outline:none; font-family:inherit; font-size:.85rem; background:transparent; color:var(--ink); }
+.faq-chat-card__input:focus-within{ box-shadow:inset 0 0 0 1.5px var(--maroon-700); }
+.faq-chat-card__input button{
+  background:linear-gradient(135deg, var(--maroon-700), var(--maroon-900));
+  color:#fff; border:none; width:38px; height:38px; border-radius:50%;
+  display:grid; place-items:center; font-size:.95rem; transition:transform .15s ease;
+}
+.faq-chat-card__input button:hover{ transform:scale(1.08); }
+.faq-chat-card__input button:active{ transform:scale(.9); }
+
+@media (max-width:980px){
+  .faq-layout{ grid-template-columns:1fr; }
+  .faq-phone{ margin:0 auto; }
+  .phone-frame{ height:540px; width:280px; }
+  .faq-coord{ display:none; }
 }
 
-
-
-
-/* =====================================================================
-   FOOTER — CTA-led, minimal columns
-   ===================================================================== */
-.site-footer{
-  background:var(--maroon-950); color:rgba(255,255,255,.8);
-  padding:0 1.5em 0; position:relative; overflow:hidden;
-}
-.footer-banner{
-  max-width:var(--container); margin:0 auto; padding:4em 0 3em;
-  border-bottom:1px solid rgba(255,255,255,.1);
-  display:flex; align-items:flex-end; justify-content:space-between; gap:2em; flex-wrap:wrap;
-}
-.footer-banner h2{
-  font-family:var(--font-display); font-style:italic; font-weight:700;
-  color:#fff; font-size:clamp(2rem, 3.5vw + 1rem, 3.3rem); margin:0; max-width:16ch; line-height:1.05;
-}
-.footer-banner h2 em{ color:var(--gold); font-style:italic; }
-.footer-banner .btn--solid{ background:var(--gold); color:var(--maroon-950); box-shadow:none; }
-.footer-banner .btn--solid:hover{ background:#fff; }
-
-.footer-cols{
+.site-footer{ background:var(--maroon-950); color:rgba(255,255,255,.8); padding:5.5em 1.5em 2em; }
+.footer-hero{
   max-width:var(--container); margin:0 auto;
-  display:grid; grid-template-columns:1.6fr 1fr 1fr 1.3fr; gap:3em;
-  padding:3em 0;
+  display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:3em;
+  padding-bottom:3em;
 }
-.footer-brand-block{ display:flex; flex-direction:column; gap:1em; max-width:30ch; }
-.footer-brand-block .footer-brand__mark{ display:flex; align-items:center; gap:.6em; text-decoration:none; }
-.footer-brand-block .footer-brand__mark img{ height:28px; width:auto; }
-.footer-brand-block .footer-brand__mark span{ font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:#fff; }
-.footer-brand-block .footer-brand__mark span em{ font-style:italic; color:var(--gold); }
-.footer-brand-block p{ font-size:.86rem; line-height:1.6; color:rgba(255,255,255,.5); margin:0; }
-
-.footer-col h4{
-  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.13em;
-  font-size:.66rem; font-weight:700; color:var(--gold); margin:0 0 1.3em;
-}
-.footer-col ul{ display:flex; flex-direction:column; gap:.85em; }
-.footer-col a{
-  text-decoration:none; font-size:.9rem; color:rgba(255,255,255,.7);
-  border-bottom:1px solid transparent; transition:color .2s ease, border-color .2s ease; padding-bottom:2px;
-}
-.footer-col a:hover{ color:#fff; border-color:var(--gold); }
-.footer-col--contact address{ font-style:normal; font-size:.9rem; color:rgba(255,255,255,.7); }
-.footer-col--contact address p{ margin:0 0 1em; }
-.footer-col--contact a{ color:rgba(255,255,255,.7); }
-.footer-col--contact a:hover{ color:var(--gold); border-color:transparent; }
-
+.footer-brand-block{ display:flex; flex-direction:column; gap:1.2em; max-width:32ch; }
+.footer-brand-block .footer-brand__mark{ display:flex; flex-direction:column; align-items:flex-start; gap:.9em; text-decoration:none; }
+.footer-brand-block .footer-brand__mark img{ height:34px; width:auto; }
+.footer-brand-block .footer-brand__name{ display:flex; flex-direction:column; gap:.15em; }
+.footer-brand-block .footer-brand__name strong{ font-family:var(--font-body); font-size:1rem; font-weight:600; color:#fff; }
+.footer-brand-block .footer-brand__name em{ font-style:normal; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.5); }
+.footer-brand-block p{ font-size:.9rem; line-height:1.65; color:rgba(255,255,255,.55); margin:0; }
+.footer-seal{ display:inline-flex; align-items:center; gap:.5em; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
+.footer-seal::before{ content:"◆"; font-size:.7em; }
+.footer-col h4{ font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.14em; font-size:.68rem; font-weight:700; color:var(--gold); margin:0 0 1.4em; }
+.footer-col ul{ display:flex; flex-direction:column; gap:1em; }
+.footer-col a{ text-decoration:none; font-size:.94rem; color:rgba(255,255,255,.7); transition:color .2s ease, padding-left .2s ease; }
+.footer-col a:hover{ color:#fff; padding-left:.35em; }
+.footer-col--contact address{ font-style:normal; font-size:.94rem; color:rgba(255,255,255,.7); }
+.footer-col--contact address p{ margin:0 0 1.1em; }
+.footer-col--contact a{ color:rgba(255,255,255,.7); text-decoration:none; }
+.footer-col--contact a:hover{ color:var(--gold); }
 .footer-meta{
   max-width:var(--container); margin:0 auto;
   display:flex; align-items:center; justify-content:space-between; gap:1.5em; flex-wrap:wrap;
-  padding:1.8em 0 2.2em; border-top:1px solid rgba(255,255,255,.1);
+  padding:2em 0 0; border-top:1px solid rgba(255,255,255,.1);
 }
-.footer-meta p{ margin:0; font-size:.78rem; color:rgba(255,255,255,.4); }
-.footer-meta__right{ display:flex; align-items:center; gap:1.6em; flex-wrap:wrap; }
-.footer-legal{ display:flex; gap:1.4em; flex-wrap:wrap; }
-.footer-legal a{ font-size:.78rem; color:rgba(255,255,255,.5); text-decoration:none; }
+.footer-meta p{ margin:0; font-size:.8rem; color:rgba(255,255,255,.4); }
+.footer-legal{ display:flex; gap:1.6em; flex-wrap:wrap; }
+.footer-legal a{ font-size:.8rem; color:rgba(255,255,255,.5); text-decoration:none; }
 .footer-legal a:hover{ color:var(--gold); }
-.footer-language-selector select{
-  font-family:var(--font-body); font-size:.78rem; padding:.4em 1.7em .4em .9em;
-  border:1px solid rgba(255,255,255,.18); border-radius:6px; background-color:transparent;
-  color:rgba(255,255,255,.6); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='white' stroke-opacity='0.5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m4 6 4 4 4-4'/></svg>");
-  background-repeat:no-repeat; background-position:right .6rem center;
-}
-.footer-language-selector select option{ background-color:var(--maroon-900); color:#fff; }
-
 @media (max-width:980px){
-  .footer-cols{ grid-template-columns:1fr 1fr; row-gap:2.2em; }
+  .footer-hero{ grid-template-columns:1fr 1fr; row-gap:2.5em; }
   .footer-brand-block{ grid-column:1 / -1; max-width:none; }
 }
 @media (max-width:600px){
-  .footer-cols{ grid-template-columns:1fr; }
+  .footer-hero{ grid-template-columns:1fr; }
   .footer-meta{ flex-direction:column; align-items:flex-start; gap:1em; }
 }
 </style>
 </head>
 <body>
 
-
 <!-- ============================= FAQ ============================= -->
 <section class="section faq-section" id="faq">
-  <div class="faq-head">
-    <div>
-      <p class="eyebrow">FAQs</p>
-      <h2>How can we help you?</h2>
-    </div>
-    <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
-  </div>
+  <div class="faq-scanline"></div>
+  <span class="faq-coord faq-coord--tl">SEC.04 / FAQ</span>
+  <span class="faq-coord faq-coord--br">COA · DA-2026</span>
 
-  <div class="faq-index">
-    <div class="faq-item is-open" onclick="this.classList.toggle('is-open')">
-      <span class="faq-item__num">01</span>
-      <div class="faq-item__body">
-        <h3>What is the "Disaster Audit" site by the Commission on Audit?</h3>
-        <div class="faq-item__answer">
+  <div class="faq-layout">
+
+    <div class="faq-phone">
+      <div class="phone-frame">
+        <div class="btn1"></div><div class="btn2"></div><div class="btn3"></div><div class="btn4"></div>
+        <div class="phone-frame__int">
+          <div class="faq-chat-card">
+            <div class="faq-chat-card__header">
+              <div class="faq-chat-card__logo" style="background-image:url('images/DA_LOGO_2-removebg-preview.png')"></div>
+              <div>
+                <strong>DisasterAudit Support</strong>
+                <span><span class="faq-chat-card__status-dot"></span> Usually replies in minutes</span>
+              </div>
+            </div>
+            <div class="faq-chat-card__body">
+              <div class="chat-msg chat-msg--bot">
+                <div class="chat-msg__avatar" style="background-image:url('images/DA_LOGO_2-removebg-preview.png')"></div>
+                <div>
+                  <div class="chat-msg__bubble">Hi! I'm here to help you look into calamity fund reports. What would you like to check?</div>
+                  <span class="chat-msg__time">12:01 PM</span>
+                </div>
+              </div>
+              <div class="chat-msg chat-msg--user">
+                <div>
+                  <div class="chat-msg__bubble">Paano ko po makikita ang allocation ng Region V calamity fund?</div>
+                  <span class="chat-msg__time">12:02 PM</span>
+                </div>
+              </div>
+              <div class="chat-msg chat-msg--bot">
+                <div class="chat-msg__avatar" style="background-image:url('images/DA_LOGO_2-removebg-preview.png')"></div>
+                <div>
+                  <div class="chat-msg__bubble">You can check it under the Reports section — it lists allocations by region along with the audit findings for each release.</div>
+                  <span class="chat-msg__time">12:03 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="faq-chat-card__quick-replies">
+              <button type="button" onclick="document.getElementById('reports').scrollIntoView({behavior:'smooth'})">View reports</button>
+              <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact PIO</button>
+            </div>
+            <form class="faq-chat-card__input" onsubmit="return false;">
+              <label for="faqChatInput" class="sr-only">Type a message</label>
+              <input id="faqChatInput" type="text" placeholder="Type your question…">
+              <button type="submit" aria-label="Send message">&#10148;</button>
+            </form>
+          </div>
+        </div>
+        <div class="phone-frame__top">
+          <div class="phone-frame__camera"><div class="int"></div></div>
+          <div class="phone-frame__speaker"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-content">
+      <div class="faq-content__intro">
+        <p class="eyebrow">FAQs</p>
+        <h2>How can we help you?</h2>
+        <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
+      </div>
+      <div class="accordion">
+        <details class="accordion__item" open>
+          <summary>What is the "Disaster Audit" site by the Commission on Audit, and what should I know about its purpose?</summary>
           <p>The Disaster Audit site is an official Commission on Audit (COA) portal that publishes audit findings, summaries, and related documentation on disaster fund utilization.</p>
-        </div>
-      </div>
-      <span class="faq-item__icon">+</span>
-    </div>
-
-    <div class="faq-item" onclick="this.classList.toggle('is-open')">
-      <span class="faq-item__num">02</span>
-      <div class="faq-item__body">
-        <h3>Who should I contact for media, research, or official inquiries?</h3>
-        <div class="faq-item__answer">
+        </details>
+        <details class="accordion__item">
+          <summary>Who should I contact for media, research, or official inquiries?</summary>
           <p>Reach the COA Public Information Office through the contact details listed in the footer below.</p>
-        </div>
-      </div>
-      <span class="faq-item__icon">+</span>
-    </div>
-
-    <div class="faq-item" onclick="this.classList.toggle('is-open')">
-      <span class="faq-item__num">03</span>
-      <div class="faq-item__body">
-        <h3>How is personal or sensitive information handled on the site?</h3>
-        <div class="faq-item__answer">
+        </details>
+        <details class="accordion__item">
+          <summary>How is personal or sensitive information handled on the site?</summary>
           <p>All data shared through the portal is handled in accordance with the Data Privacy Act of 2012.</p>
-        </div>
-      </div>
-      <span class="faq-item__icon">+</span>
-    </div>
-
-    <div class="faq-item" onclick="this.classList.toggle('is-open')">
-      <span class="faq-item__num">04</span>
-      <div class="faq-item__body">
-        <h3>How do I request additional information or report a records request?</h3>
-        <div class="faq-item__answer">
+        </details>
+        <details class="accordion__item">
+          <summary>How do I request additional information or report a records request?</summary>
           <p>Submit a request through the Freedom of Information (FOI) portal linked in Quick Links.</p>
-        </div>
+        </details>
       </div>
-      <span class="faq-item__icon">+</span>
     </div>
-  </div>
 
-  <div class="faq-cta">
-    <div class="faq-cta__text">
-      <h3>Still have questions?</h3>
-      <p>Get in touch with the Public Information Office directly for media, research, or records requests.</p>
-    </div>
-    <a href="#contact">Contact PIO</a>
   </div>
 </section>
 
-<!-- ============================= FOOTER ============================= -->
 <footer class="site-footer" id="contact">
-  <div class="footer-banner">
-    <h2>Every peso, <em>accounted for</em>.</h2>
-    <a href="#reports" class="btn btn--solid">Browse reports</a>
-  </div>
-
-  <div class="footer-cols">
+  <div class="footer-hero">
     <div class="footer-brand-block">
       <a href="#home" class="footer-brand__mark">
         <img src="images/DA_LOGO_2-removebg-preview.png" alt="Commission on Audit logo">
-        <span>Disaster<em>Audit</em></span>
+        <span class="footer-brand__name">
+          <strong>Disaster Audit</strong>
+          <em>Commission on Audit</em>
+        </span>
       </a>
       <p>A public ledger for calamity funds, maintained by the Commission on Audit — tracing disaster response spending from the national treasury down to the barangay.</p>
+      <span class="footer-seal">Republic of the Philippines</span>
     </div>
 
     <nav class="footer-col" aria-label="Site sections">
@@ -353,21 +475,12 @@ button{ font-family:inherit; cursor:pointer; }
 
   <div class="footer-meta">
     <p>&copy; 2026 Commission on Audit, Republic of the Philippines. All rights reserved.</p>
-    <div class="footer-meta__right">
-      <div class="footer-legal">
-        <a href="#">Privacy notice</a>
-        <a href="#">Data Privacy Act (RA 10173)</a>
-        <a href="#">Terms of use</a>
-      </div>
-      <div class="footer-language-selector">
-        <select aria-label="Select language">
-          <option value="en">English</option>
-          <option value="tl">Filipino</option>
-        </select>
-      </div>
+    <div class="footer-legal">
+      <a href="#">Privacy notice</a>
+      <a href="#">Data Privacy Act (RA 10173)</a>
+      <a href="#">Terms of use</a>
     </div>
   </div>
 </footer>
-
 </body>
 </html>
