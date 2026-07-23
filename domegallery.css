@@ -1,0 +1,288 @@
+/* =====================================================================
+   DOME GALLERY — immersive 3D photo sphere
+   Reads its images straight from the existing .gallery-card markup,
+   so nothing in the library is ever hidden or dropped — it all
+   just gets a more dramatic way to be seen.
+
+   No boxed card here on purpose: the wrap has no background, border,
+   or shadow of its own — it blends straight into whatever section
+   background sits behind it (set per-instance via --dome-bg below).
+   ===================================================================== */
+
+body.dg-scroll-lock { overflow: hidden; }
+
+.dome-wrap {
+  position: relative;
+  width: 100%;
+  --dome-bg: var(--paper);
+}
+
+.dome-wrap--teaser { height: clamp(360px, 46vw, 480px); --dome-bg: var(--paper-dim); }
+.dome-wrap--full   { height: clamp(420px, 62vh, 640px); margin-top: 1.2em; --dome-bg: var(--paper); }
+
+.dome-hint {
+  position: absolute;
+  left: 50%;
+  bottom: .6em;
+  transform: translateX(-50%);
+  z-index: 6;
+  margin: 0;
+  padding: .5em 1.2em;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  animation: dome-hint-in .6s ease .5s forwards;
+}
+@keyframes dome-hint-in { to { opacity: .85; } }
+.dome-wrap.is-interacted .dome-hint { opacity: 0 !important; transition: opacity .4s ease; }
+
+.dome-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  --radius: 520px;
+  --circ: calc(var(--radius) * 3.14159);
+  --rot-y: calc((360deg / var(--segments-x, 20)) / 2);
+  --rot-x: calc((360deg / var(--segments-y, 20)) / 2);
+  --item-width: calc(var(--circ) / var(--segments-x, 20));
+  --item-height: calc(var(--circ) / var(--segments-y, 20));
+  --spot-x: 50%;
+  --spot-y: 40%;
+}
+
+.dome-gallery * { box-sizing: border-box; }
+
+.dome-gallery__stage,
+.dome-gallery__sphere,
+.dome-item,
+.dome-item__tile {
+  transform-style: preserve-3d;
+}
+
+.dome-gallery__main {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.dome-gallery__main:active { cursor: grabbing; }
+
+/* soft warm spotlight that tracks the pointer — a hint of maroon, not a
+   spotlight cone, so it reads as ambient light rather than an effect */
+.dome-gallery__main::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(420px 420px at var(--spot-x) var(--spot-y), rgba(168,51,71,.12), transparent 65%);
+  mix-blend-mode: multiply;
+  transition: opacity .3s ease;
+}
+
+.dome-gallery__stage {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  perspective: calc(var(--radius) * 2.1);
+  perspective-origin: 50% 50%;
+  contain: layout paint size;
+}
+
+.dome-gallery__sphere {
+  transform: translateZ(calc(var(--radius) * -1));
+  will-change: transform;
+}
+
+.dome-item {
+  width: calc(var(--item-width) * var(--item-size-x, 2));
+  height: calc(var(--item-height) * var(--item-size-y, 2));
+  position: absolute;
+  top: -999px; bottom: -999px; left: -999px; right: -999px;
+  margin: auto;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  transition: transform .35s cubic-bezier(.22,.9,.32,1), opacity .5s ease;
+  opacity: 0;
+  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x, 2) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y, 2) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+    translateZ(var(--radius)) scale(.82);
+}
+.dome-item.is-visible { opacity: 1; transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x, 2) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y, 2) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+    translateZ(var(--radius)) scale(1); }
+
+.dome-item__tile {
+  position: absolute;
+  inset: 7px;
+  display: block;
+  border: none;
+  padding: 0;
+  border-radius: var(--radius-m);
+  background: linear-gradient(135deg, var(--paper-dim), var(--gold-100));
+  overflow: hidden;
+  backface-visibility: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  pointer-events: auto;
+  transform: translateZ(0) scale(1);
+  box-shadow: 0 10px 24px -16px rgba(23,7,9,.5);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.dome-item__tile:hover,
+.dome-item__tile:focus-visible {
+  box-shadow: 0 18px 34px -16px rgba(23,7,9,.55), 0 0 0 1px var(--gold);
+  transform: translateZ(0) scale(1.045);
+  outline: none;
+}
+
+.dome-item__tile img {
+  width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none;
+  backface-visibility: hidden;
+  filter: grayscale(.7) sepia(.25) saturate(1.15) contrast(1.03);
+  transition: filter .5s ease, transform 6s linear;
+  transform: scale(1.02);
+}
+.dome-item__tile:hover img,
+.dome-item__tile:focus-visible img {
+  filter: grayscale(0) sepia(0) saturate(1.08) contrast(1.03);
+  transform: scale(1.09);
+}
+
+/* edges of the sphere dissolve into whatever's behind the wrap, rather
+   than being clipped by a visible box */
+.dome-gallery__overlay,
+.dome-gallery__overlay--blur {
+  position: absolute; inset: 0; margin: auto; z-index: 3; pointer-events: none;
+}
+.dome-gallery__overlay {
+  background-image: radial-gradient(rgba(0,0,0,0) 62%, var(--dome-bg) 100%);
+}
+.dome-gallery__overlay--blur {
+  -webkit-mask-image: radial-gradient(rgba(0,0,0,0) 70%, var(--dome-bg) 92%);
+  mask-image: radial-gradient(rgba(0,0,0,0) 70%, var(--dome-bg) 92%);
+  backdrop-filter: blur(2px);
+}
+.dome-gallery__edge {
+  position: absolute; left: 0; right: 0; height: 80px; z-index: 5; pointer-events: none;
+}
+.dome-gallery__edge--top { top: 0; background: linear-gradient(to bottom, var(--dome-bg), transparent); }
+.dome-gallery__edge--bottom { bottom: 0; background: linear-gradient(to top, var(--dome-bg), transparent); }
+
+/* =====================================================================
+   FULLSCREEN LIGHTBOX — shared singleton, appended once to <body> so it
+   can pop out to the full viewport regardless of how small the dome's
+   own container is.
+   ===================================================================== */
+.dome-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+.dome-lightbox.is-open { display: block; }
+
+.dome-lightbox__scrim {
+  position: absolute; inset: 0;
+  background: rgba(23,7,9,.82);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.dome-lightbox.is-open .dome-lightbox__scrim { opacity: 1; }
+
+.dome-lightbox__stage {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2em;
+  padding: 2em 1.5em;
+  pointer-events: none;
+}
+
+.dome-lightbox__frame {
+  position: relative;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: 0 40px 90px -24px rgba(0,0,0,.55);
+  background: var(--maroon-950);
+  pointer-events: auto;
+}
+.dome-lightbox__frame img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.dome-lightbox__plaque {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 1em 1.7em 1.15em;
+  border-radius: var(--radius-m);
+  border-top: 3px solid var(--maroon-700);
+  box-shadow: var(--shadow-card);
+  max-width: min(640px, 86vw);
+  text-align: center;
+  opacity: 0;
+  pointer-events: auto;
+}
+.dome-lightbox__plaque .card__kicker { color: var(--maroon-700); margin: 0 0 .25em; }
+.dome-lightbox__plaque h4 {
+  margin: 0 0 .3em; font-family: var(--font-display); font-weight: 600; color: var(--maroon-900);
+  font-size: clamp(1rem, 1.3vw + .6rem, 1.3rem);
+}
+.dome-lightbox__plaque time { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-soft); }
+
+.dome-lightbox__close {
+  position: fixed; top: 1.5em; right: 1.5em; z-index: 10000;
+  width: 42px; height: 42px; border-radius: 50%; border: none;
+  background: var(--paper-dim); color: var(--maroon-700); font-size: 1rem;
+  cursor: pointer; opacity: 0; pointer-events: none;
+  transition: background .2s ease, color .2s ease, opacity .3s ease;
+}
+.dome-lightbox__close:hover { background: var(--maroon-700); color: #fff; }
+.dome-lightbox.is-open .dome-lightbox__close { opacity: 1; pointer-events: auto; }
+
+/* ---------- Grid / dome toggle (inside modal) ---------- */
+.gallery-view-toggle {
+  display: inline-flex; gap: .3em; padding: .3em; margin: 0 0 1.2em;
+  background: var(--paper-dim); border-radius: 999px; border: 1px solid var(--line);
+}
+.view-toggle-btn {
+  border: none; background: transparent; padding: .55em 1.2em; border-radius: 999px;
+  font-family: var(--font-body); font-size: .82rem; font-weight: 600; color: var(--ink-soft);
+  cursor: pointer; transition: background .2s ease, color .2s ease;
+}
+.view-toggle-btn.is-active { background: var(--maroon-700); color: #fff; }
+.view-toggle-btn:not(.is-active):hover { color: var(--maroon-700); }
+
+.card-grid--gallery.is-hidden,
+.gallery-card.is-hidden,
+.dome-wrap.is-hidden { display: none; }
+
+@media (max-width: 780px) {
+  .dome-wrap--teaser { height: clamp(300px, 78vw, 380px); }
+  .dome-wrap--full { height: 56vh; }
+  .dome-lightbox__plaque h4 { font-size: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dome-item, .dome-item__tile, .dome-item__tile img,
+  .dome-lightbox__plaque, .dome-lightbox__frame, .dome-lightbox__scrim { transition: none !important; }
+}

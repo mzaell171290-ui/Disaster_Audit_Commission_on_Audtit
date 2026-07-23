@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="granient.css">
   <link rel="stylesheet" href="cardswapdata.css">
   <link rel="stylesheet" href="flowingmenu.css">
+  <link rel="stylesheet" href="domegallery.css">
   </head>
   <body>
 
@@ -358,43 +359,21 @@
       <p class="section__lede">Visual documentation of Commission on Audit's disaster response audits, field operations, and rehabilitation assessments — ensuring transparency and fiscal accountability where it matters most.</p>
     </div>
 
-    <div class="filter-row">
-      <button class="filter-chip is-active" type="button">All</button>
-      <button class="filter-chip" type="button">Tacloban</button>
-      <button class="filter-chip" type="button">Briefing</button>
-      <button class="filter-chip" type="button">GACPA</button>
-      <button class="filter-chip" type="button">Relief</button>
+    <div class="filter-row" id="library-filter-row">
+      <button class="filter-chip is-active" type="button" data-filter="all">All</button>
+      <button class="filter-chip" type="button" data-filter="tacloban">Tacloban</button>
+      <button class="filter-chip" type="button" data-filter="briefing">Briefing</button>
+      <button class="filter-chip" type="button" data-filter="gacpa">GACPA</button>
+      <button class="filter-chip" type="button" data-filter="relief">Relief</button>
     </div>
 
-    <div class="card-grid card-grid--3">
-      <figure class="gallery-card">
-        <img src="images/docsec1.jpg" alt="DRRM Seminar" loading="lazy">
-        <figcaption>
-          <p class="card__kicker">DRRM Seminar</p>
-          <h4>Commissioner Mendoza @ DRRM Seminar during GACPA Convention</h4>
-          <time>May 24, 2014</time>
-        </figcaption>
-      </figure>
-      <figure class="gallery-card">
-        <img src="images/docsec2.jpg" alt="Relief Operations" loading="lazy">
-        <figcaption>
-          <p class="card__kicker">DSWD</p>
-          <h4>Relief Operations for the victims of typhoon Yolanda</h4>
-          <time>Nov 8, 2013</time>
-        </figcaption>
-      </figure>
-      <figure class="gallery-card">
-        <img src="images/docsec3.jpg" alt="Briefing for COA Auditors" loading="lazy">
-        <figcaption>
-          <p class="card__kicker">COA/DRR</p>
-          <h4>Briefing for COA Auditors of about DRR</h4>
-          <time>Nov 20, 2022</time>
-        </figcaption>
-      </figure>
+    <div class="dome-wrap dome-wrap--teaser" aria-label="Rotating preview of the documentation library — drag to look around">
+      <div class="dome-gallery" id="library-dome-teaser" data-dome-gallery data-fit="0.55" data-min-radius="420" data-segments="18" data-idle-delay="2200"></div>
+      <p class="dome-hint">Drag to look around</p>
     </div>
 
     <div class="section__more">
-      <button class="btn btn--outline" type="button" onclick="document.getElementById('modal-library-gallery').showModal()">View full gallery</button>
+      <button class="btn btn--outline" type="button" id="library-gallery-trigger" onclick="document.getElementById('modal-library-gallery').showModal()">View full gallery</button>
       
     </div>
 
@@ -404,26 +383,36 @@
         <p class="card__kicker">Documentation library</p>
         <h3>Full photo gallery</h3>
 
-        <div class="card-grid card-grid--gallery">
-          <figure class="gallery-card"><img src="images/docsec1.jpg" alt="Commissioner Mendoza at DRRM Seminar" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Commissioner Mendoza @ DRRM Seminar during GACPA Convention</h4><time>May 24, 2014</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/docsec2.jpg" alt="Relief operations for typhoon Yolanda victims" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Relief Operations for the victims of typhoon Yolanda</h4><time>Nov 8, 2013</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/docsec3.jpg" alt="Briefing for COA auditors" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Briefing for COA Auditors of about DRR</h4><time>Nov 20, 2022</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-04.jpg" alt="Post-Yolanda rehabilitation site visit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Post-Yolanda Rehabilitation Site Visit</h4><time>Jan 15, 2015</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-05.jpg" alt="Joint disaster simulation exercise" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Joint Disaster Simulation Exercise</h4><time>Mar 3, 2016</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-06.jpg" alt="Distribution of relief packs in Region VIII" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Distribution of Relief Packs in Region VIII</h4><time>Aug 19, 2016</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-07.jpg" alt="GACPA national convention highlights" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>GACPA National Convention Highlights</h4><time>May 22, 2017</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-08.jpg" alt="Auditor's briefing on calamity fund utilization" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Auditor's Briefing on Calamity Fund Utilization</h4><time>Feb 9, 2018</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-09.jpg" alt="Field validation of evacuation centers" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Field Validation of Evacuation Centers</h4><time>Jul 14, 2018</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-10.jpg" alt="Typhoon Yolanda memorial program" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Typhoon Yolanda Memorial Program</h4><time>Nov 8, 2018</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-11.jpg" alt="Cash-for-work program monitoring visit" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Cash-for-Work Program Monitoring Visit</h4><time>Apr 2, 2019</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-12.jpg" alt="Local DRRM officers training workshop" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Local DRRM Officers Training Workshop</h4><time>Jun 27, 2019</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-13.jpg" alt="National disaster response drill" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>National Disaster Response Drill</h4><time>Sep 5, 2019</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-14.jpg" alt="Flood relief goods inventory check" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Flood Relief Goods Inventory Check</h4><time>Jan 20, 2020</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-15.jpg" alt="Special audit team deployment briefing" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Special Audit Team Deployment Briefing</h4><time>May 11, 2020</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-16.jpg" alt="Post-disaster needs assessment briefing" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Post-Disaster Needs Assessment Briefing</h4><time>Aug 3, 2020</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-17.jpg" alt="Regional GACPA chapter meeting" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>Regional GACPA Chapter Meeting</h4><time>Oct 14, 2020</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-18.jpg" alt="Site inspection of flood control projects" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Site Inspection of Flood Control Projects</h4><time>Feb 8, 2021</time></figcaption></figure>
-          <figure class="gallery-card"><img src="images/lib-19.jpg" alt="Tacloban resettlement site audit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Tacloban Resettlement Site Audit</h4><time>Apr 25, 2021</time></figcaption></figure>
+        <div class="gallery-view-toggle" role="group" aria-label="Gallery view">
+          <button type="button" class="view-toggle-btn is-active" data-view="dome">Immersive view</button>
+          <button type="button" class="view-toggle-btn" data-view="grid">Grid view</button>
+        </div>
+
+        <div class="dome-wrap dome-wrap--full" id="library-dome-full-wrap" aria-label="Immersive rotating gallery — drag to look around, click a photo to view it larger">
+          <div class="dome-gallery" id="library-dome-full" data-dome-gallery data-fit="0.62" data-min-radius="560" data-segments="26" data-idle-delay="3200"></div>
+          <p class="dome-hint">Drag to look around · Click a photo to enlarge</p>
+        </div>
+
+        <div class="card-grid card-grid--gallery is-hidden" id="library-grid-fallback">
+          <figure class="gallery-card"><img src="Resources\1.jpg" alt="Commissioner Mendoza at DRRM Seminar" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Commissioner Mendoza @ DRRM Seminar during GACPA Convention</h4><time>May 24, 2014</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\2.jpg" alt="Relief operations for typhoon Yolanda victims" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Relief Operations for the victims of typhoon Yolanda</h4><time>Nov 8, 2013</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\3.jpg" alt="Briefing for COA auditors" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Briefing for COA Auditors of about DRR</h4><time>Nov 20, 2022</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\4.jpg" alt="Post-Yolanda rehabilitation site visit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Post-Yolanda Rehabilitation Site Visit</h4><time>Jan 15, 2015</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\5.jpg" alt="Joint disaster simulation exercise" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Joint Disaster Simulation Exercise</h4><time>Mar 3, 2016</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\6.jpg" alt="Distribution of relief packs in Region VIII" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Distribution of Relief Packs in Region VIII</h4><time>Aug 19, 2016</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\7.jpg" alt="GACPA national convention highlights" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>GACPA National Convention Highlights</h4><time>May 22, 2017</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\8.jpg" alt="Auditor's briefing on calamity fund utilization" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Auditor's Briefing on Calamity Fund Utilization</h4><time>Feb 9, 2018</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\9.jpg" alt="Field validation of evacuation centers" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Field Validation of Evacuation Centers</h4><time>Jul 14, 2018</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\10.jpg" alt="Typhoon Yolanda memorial program" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Typhoon Yolanda Memorial Program</h4><time>Nov 8, 2018</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\11.jpg" alt="Cash-for-work program monitoring visit" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Cash-for-Work Program Monitoring Visit</h4><time>Apr 2, 2019</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\12.jpg" alt="Local DRRM officers training workshop" loading="lazy"><figcaption><p class="card__kicker">DRRM Seminar</p><h4>Local DRRM Officers Training Workshop</h4><time>Jun 27, 2019</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources\13.jpg" alt="National disaster response drill" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>National Disaster Response Drill</h4><time>Sep 5, 2019</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/14.jpg" alt="Flood relief goods inventory check" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Flood Relief Goods Inventory Check</h4><time>Jan 20, 2020</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/lib-15.jpg" alt="Special audit team deployment briefing" loading="lazy"><figcaption><p class="card__kicker">COA/DRR</p><h4>Special Audit Team Deployment Briefing</h4><time>May 11, 2020</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/lib-16.jpg" alt="Post-disaster needs assessment briefing" loading="lazy"><figcaption><p class="card__kicker">Briefing</p><h4>Post-Disaster Needs Assessment Briefing</h4><time>Aug 3, 2020</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/lib-17.jpg" alt="Regional GACPA chapter meeting" loading="lazy"><figcaption><p class="card__kicker">GACPA</p><h4>Regional GACPA Chapter Meeting</h4><time>Oct 14, 2020</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/lib-18.jpg" alt="Site inspection of flood control projects" loading="lazy"><figcaption><p class="card__kicker">Field Ops</p><h4>Site Inspection of Flood Control Projects</h4><time>Feb 8, 2021</time></figcaption></figure>
+          <figure class="gallery-card"><img src="Resources/lib-19.jpg" alt="Tacloban resettlement site audit" loading="lazy"><figcaption><p class="card__kicker">Tacloban</p><h4>Tacloban Resettlement Site Audit</h4><time>Apr 25, 2021</time></figcaption></figure>
           <figure class="gallery-card"><img src="images/lib-20.jpg" alt="Family assistance package distribution" loading="lazy"><figcaption><p class="card__kicker">DSWD</p><h4>Family Assistance Package Distribution</h4><time>Jun 30, 2021</time></figcaption></figure>
           <figure class="gallery-card"><img src="images/lib-21.jpg" alt="Inter-agency coordination meeting" loading="lazy"><figcaption><p class="card__kicker">NDRRMC</p><h4>Inter-Agency Coordination Meeting</h4><time>Sep 16, 2021</time></figcaption></figure>
           <figure class="gallery-card"><img src="images/lib-22.jpg" alt="Relief goods warehousing inspection" loading="lazy"><figcaption><p class="card__kicker">Relief</p><h4>Relief Goods Warehousing Inspection</h4><time>Dec 1, 2021</time></figcaption></figure>
@@ -588,31 +577,90 @@
 
   <!-- ============================= FAQ ============================= -->
   <section class="section faq-section" id="faq">
+    <div class="faq-scanline"></div>
+    <span class="faq-coord faq-coord--tl">SEC.04 / FAQ</span>
+    <span class="faq-coord faq-coord--br">COA · DA-2026</span>
+
     <div class="faq-layout">
-      <div class="faq-layout__intro">
-        <p class="eyebrow">FAQs</p>
-        <h2>How can we help you?</h2>
-        <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
+
+      <div class="faq-phone">
+        <div class="phone-frame">
+          <div class="btn1"></div><div class="btn2"></div><div class="btn3"></div><div class="btn4"></div>
+          <div class="phone-frame__int">
+            <div class="faq-chat-card">
+              <div class="faq-chat-card__header">
+                <div class="faq-chat-card__logo" style="background-image:url('images/logo.png')"></div>
+                <div>
+                  <strong>DisasterAudit Support</strong>
+                  <span><span class="faq-chat-card__status-dot"></span> Usually replies in minutes</span>
+                </div>
+              </div>
+              <div class="faq-chat-card__body">
+                <div class="chat-msg chat-msg--bot">
+                  <div class="chat-msg__avatar" style="background-image:url('images/logo.png')"></div>
+                  <div>
+                    <div class="chat-msg__bubble">Hi! I'm here to help you look into calamity fund reports. What would you like to check?</div>
+                    <span class="chat-msg__time">12:01 PM</span>
+                  </div>
+                </div>
+                <div class="chat-msg chat-msg--user">
+                  <div>
+                    <div class="chat-msg__bubble">Paano ko po makikita ang allocation ng Region V calamity fund?</div>
+                    <span class="chat-msg__time">12:02 PM</span>
+                  </div>
+                </div>
+                <div class="chat-msg chat-msg--bot">
+                  <div class="chat-msg__avatar" style="background-image:url('images/logo.png')"></div>
+                  <div>
+                    <div class="chat-msg__bubble">You can check it under the Reports section — it lists allocations by region along with the audit findings for each release.</div>
+                    <span class="chat-msg__time">12:03 PM</span>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-chat-card__quick-replies">
+                <button type="button" onclick="document.getElementById('reports').scrollIntoView({behavior:'smooth'})">View reports</button>
+                <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact PIO</button>
+              </div>
+              <form class="faq-chat-card__input" onsubmit="return false;">
+                <label for="faqChatInput" class="sr-only">Type a message</label>
+                <input id="faqChatInput" type="text" placeholder="Type your question…">
+                <button type="submit" aria-label="Send message">&#10148;</button>
+              </form>
+            </div>
+          </div>
+          <div class="phone-frame__top">
+            <div class="phone-frame__camera"><div class="int"></div></div>
+            <div class="phone-frame__speaker"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="accordion">
-        <details class="accordion__item" open>
-          <summary>What is the "Disaster Audit" site by the Commission on Audit, and what should I know about its purpose?</summary>
-          <p>The Disaster Audit site is an official Commission on Audit (COA) portal that publishes audit findings, summaries, and related documentation on disaster fund utilization.</p>
-        </details>
-        <details class="accordion__item">
-          <summary>Who should I contact for media, research, or official inquiries?</summary>
-          <p>Reach the COA Public Information Office through the contact details listed in the footer below.</p>
-        </details>
-        <details class="accordion__item">
-          <summary>How is personal or sensitive information handled on the site?</summary>
-          <p>All data shared through the portal is handled in accordance with the Data Privacy Act of 2012.</p>
-        </details>
-        <details class="accordion__item">
-          <summary>How do I request additional information or report a records request?</summary>
-          <p>Submit a request through the Freedom of Information (FOI) portal linked in Quick Links.</p>
-        </details>
+      <div class="faq-content">
+        <div class="faq-content__intro">
+          <p class="eyebrow">FAQs</p>
+          <h2>How can we help you?</h2>
+          <p>Can't find what you're looking for? Reach the COA Public Information Office through the contact details in the footer.</p>
+        </div>
+        <div class="accordion">
+          <details class="accordion__item" open>
+            <summary>What is the "Disaster Audit" site by the Commission on Audit, and what should I know about its purpose?</summary>
+            <p>The Disaster Audit site is an official Commission on Audit (COA) portal that publishes audit findings, summaries, and related documentation on disaster fund utilization.</p>
+          </details>
+          <details class="accordion__item">
+            <summary>Who should I contact for media, research, or official inquiries?</summary>
+            <p>Reach the COA Public Information Office through the contact details listed in the footer below.</p>
+          </details>
+          <details class="accordion__item">
+            <summary>How is personal or sensitive information handled on the site?</summary>
+            <p>All data shared through the portal is handled in accordance with the Data Privacy Act of 2012.</p>
+          </details>
+          <details class="accordion__item">
+            <summary>How do I request additional information or report a records request?</summary>
+            <p>Submit a request through the Freedom of Information (FOI) portal linked in Quick Links.</p>
+          </details>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -620,18 +668,18 @@
 
   <!-- ============================= FOOTER ============================= -->
   <footer class="site-footer" id="contact">
-    <div class="footer-banner">
-      <h2>Every peso, <em>accounted for</em>.</h2>
-      <a href="#reports" class="btn btn--solid">Browse reports</a>
-    </div>
 
-    <div class="footer-cols">
+    <div class="footer-hero">
       <div class="footer-brand-block">
         <a href="#home" class="footer-brand__mark">
-          <img src="images/Paper_Logo_Mockup_PHOTOPEA-removebg-preview.png" alt="Commission on Audit logo">
-          <span>Disaster<em>Audit</em></span>
+          <img src="Resources\image(1).png" alt="Commission on Audit logo">
+          <span class="footer-brand__name">
+            <strong>Disaster Audit</strong>
+            <em>Commission on Audit</em>
+          </span>
         </a>
         <p>A public ledger for calamity funds, maintained by the Commission on Audit — tracing disaster response spending from the national treasury down to the barangay.</p>
+        <span class="footer-seal">Republic of the Philippines</span>
       </div>
 
       <nav class="footer-col" aria-label="Site sections">
@@ -674,9 +722,9 @@
           <a href="#">Terms of use</a>
         </div>
         <div class="footer-language-selector">
-          <select aria-label="Select language">
-            <option value="en">English</option>
-            <option value="tl">Filipino</option>
+          <select id="language-select" aria-label="Select language">
+            <option value="English">English</option>
+            <option value="Filipino">Filipino</option>
           </select>
         </div>
       </div>
@@ -684,6 +732,7 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="domegallery.js"></script>
   <script src="mainindex.js"></script>
   <script src="cardnav.js"></script>
   <script src="cardswap.js"></script>

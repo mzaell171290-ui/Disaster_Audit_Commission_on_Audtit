@@ -1,0 +1,162 @@
+/* =====================================================================
+   CARD SWAP — 3D stacked, auto-swapping cards with click-to-focus.
+   Replaces the static "Live Allocation Monitor" card in the hero.
+   Colors already match the site palette (maroon-700 / ink-soft / paper).
+   Requires GSAP (already loaded in index.html before this is used).
+   ===================================================================== */
+
+.card-swap-container {
+  position: relative;
+  width: 360px;
+  height: 480px;
+  max-width: 100%;
+  perspective: 1000px;
+  overflow: visible;
+  margin: .5em auto 0;
+}
+
+.card-swap-container .card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  height: 460px;
+  border-radius: 24px;
+  border: 1px solid rgba(127, 20, 37, 0.4);
+  background: linear-gradient(135deg, #7F1425 0%, #3D3A31 50%, #1A0407 100%);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  color: #F9F6F0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  cursor: pointer;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-swap-container .card.focused {
+  border-color: rgba(249, 246, 240, 0.8);
+  box-shadow: 0 30px 60px rgba(127, 20, 37, 0.4), 0 0 40px rgba(249, 246, 240, 0.1);
+}
+
+.card-swap-container .fx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.card-swap-container .ambient-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, rgba(127, 20, 37, 0.25), rgba(163, 155, 139, 0.1));
+  opacity: 0.6;
+}
+
+.card-swap-container .blur-orb {
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(to top right, #7F1425, transparent);
+  filter: blur(40px);
+  opacity: 0.5;
+}
+
+.card-swap-container .card-padding {
+  padding: 28px;
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-swap-container .badge-icon-frame {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+
+.card-swap-container .icon-pod {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(249, 246, 240, 0.25);
+  background: linear-gradient(135deg, #7F1425, #3D3A31);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #F9F6F0;
+}
+
+.card-swap-container .title-text {
+  font-family: var(--font-display, inherit);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #F9F6F0, #A39B8B);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+
+.card-swap-container .card-subtitle {
+  font-size: 13px;
+  color: #A39B8B;
+  margin-bottom: 20px;
+}
+
+.card-swap-container .stream-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid rgba(249, 246, 240, 0.15);
+  padding-top: 16px;
+}
+
+.card-swap-container .node-meta {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: #A39B8B;
+  letter-spacing: 0.04em;
+}
+
+.card-swap-container .node-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(249, 246, 240, 0.85);
+  margin: 0;
+}
+
+.card-swap-container .node-desc strong {
+  color: #F9F6F0;
+}
+
+.card-swap-container .accent-bar {
+  width: 40px;
+  height: 3px;
+  background: #7F1425;
+  border-radius: 9999px;
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .card-swap-container {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+}
